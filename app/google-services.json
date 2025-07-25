@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "228655378288",
+    "firebase_url": "https://senpai-challegne-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "senpai-challegne",
+    "storage_bucket": "senpai-challegne.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228655378288:android:6c51ba7eaa364a313e69b5",
+        "android_client_info": {
+          "package_name": "com.dhruv.senpaichallegne"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228655378288-4p0g2lpcgbgdrcme1c7uolubr35ajgrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6JQ7nEAhr1S4w_W2_WnTLzrD2K6GLv1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228655378288-4p0g2lpcgbgdrcme1c7uolubr35ajgrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228655378288:android:4b8206d43e0203783e69b5",
+        "android_client_info": {
+          "package_name": "com.example.senpaichallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228655378288-4p0g2lpcgbgdrcme1c7uolubr35ajgrr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6JQ7nEAhr1S4w_W2_WnTLzrD2K6GLv1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228655378288-4p0g2lpcgbgdrcme1c7uolubr35ajgrr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

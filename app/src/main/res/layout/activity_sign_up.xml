@@ -1,0 +1,66 @@
+<!-- res/layout/activity_sign_up.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_red_glow"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Here?"
+        android:textSize="28sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/poppins"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"/>
+
+    <!-- Email Field -->
+    <EditText
+        android:id="@+id/email_input"
+        style="@style/InputField"
+        android:hint="Email"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Anime ID Field -->
+    <EditText
+        android:id="@+id/anime_id_input"
+        style="@style/InputField"
+        android:hint="Anime Id"
+        app:layout_constraintTop_toBottomOf="@id/email_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Username Field -->
+    <EditText
+        android:id="@+id/username_input"
+        style="@style/InputField"
+        android:hint="User Name"
+        app:layout_constraintTop_toBottomOf="@id/anime_id_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Continue button -->
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:text="Next"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:fontFamily="@font/poppins"
+        app:layout_constraintTop_toBottomOf="@id/username_input"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
