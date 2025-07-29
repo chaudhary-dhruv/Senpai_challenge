@@ -1,0 +1,7 @@
+<!-- res/font/inknut_antiqua.xml -->
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/inknut_antiqua_regular" />
+</font-family>

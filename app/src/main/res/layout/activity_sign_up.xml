@@ -1,66 +1,178 @@
-<!-- res/layout/activity_sign_up.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_red_glow"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
+    <!-- 50% opacity background image -->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/background_red_glow"
+        android:scaleType="centerCrop"
+        android:alpha="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back arrow -->
+    <ImageView
+        android:id="@+id/backArrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"
+        app:tint="@android:color/white" />
+
+    <!-- Title -->
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Here?"
         android:textSize="28sp"
+        android:textStyle="bold"
         android:textColor="@android:color/white"
-        android:fontFamily="@font/poppins"
-        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/inknut_antiqua"
+        app:layout_constraintTop_toBottomOf="@id/backArrow"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"/>
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp" />
 
-    <!-- Email Field -->
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/subtitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="We're excited to have you. Just a few steps to go."
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/inknut_antiqua"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="4dp" />
+
+    <!-- Email Input -->
     <EditText
         android:id="@+id/email_input"
         style="@style/InputField"
         android:hint="Email"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/subtitleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
 
-    <!-- Anime ID Field -->
+    <!-- Anime Id Input -->
     <EditText
         android:id="@+id/anime_id_input"
         style="@style/InputField"
         android:hint="Anime Id"
         app:layout_constraintTop_toBottomOf="@id/email_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toStartOf="@id/email_input"
+        app:layout_constraintEnd_toEndOf="@id/email_input"
+        android:layout_marginTop="16dp" />
 
-    <!-- Username Field -->
+    <!-- User Name Input -->
     <EditText
         android:id="@+id/username_input"
         style="@style/InputField"
         android:hint="User Name"
         app:layout_constraintTop_toBottomOf="@id/anime_id_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toStartOf="@id/email_input"
+        app:layout_constraintEnd_toEndOf="@id/email_input"
+        android:layout_marginTop="16dp" />
 
-    <!-- Continue button -->
+    <!-- Next Button -->
     <Button
         android:id="@+id/btn_next"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="52dp"
         android:text="Next"
-        android:backgroundTint="@android:color/white"
         android:textColor="@android:color/black"
-        android:fontFamily="@font/poppins"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/username_input"
-        android:layout_marginTop="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toStartOf="@id/username_input"
+        app:layout_constraintEnd_toEndOf="@id/username_input"
+        android:layout_marginTop="24dp" />
 
+    <!-- Divider Text -->
+    <TextView
+        android:id="@+id/dividerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Or register with"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/inknut_antiqua"
+        app:layout_constraintTop_toBottomOf="@id/btn_next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Google Sign In Button -->
+    <LinearLayout
+        android:id="@+id/googleSignInButton"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/input_field_bg"
+        app:layout_constraintTop_toBottomOf="@id/dividerText"
+        app:layout_constraintStart_toStartOf="@id/btn_next"
+        app:layout_constraintEnd_toEndOf="@id/btn_next"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_google_logo"
+            android:contentDescription="Google"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign in with Google"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/inknut_antiqua"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <!-- Already have account Text -->
+    <TextView
+        android:id="@+id/already_account_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? "
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/inknut_antiqua"
+        app:layout_constraintTop_toBottomOf="@id/googleSignInButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Log In Clickable Link -->
+    <TextView
+        android:id="@+id/login_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="log in"
+        android:textColor="@android:color/holo_blue_light"
+        android:textStyle="bold"
+        android:fontFamily="@font/inknut_antiqua"
+        app:layout_constraintTop_toTopOf="@id/already_account_text"
+        app:layout_constraintStart_toEndOf="@id/already_account_text"
+        app:layout_constraintBottom_toBottomOf="@id/already_account_text"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,8 @@
     <string name="community">Community</string>
     <string name="Community">Community</string>
     <string name="home">Home</string>
-    <string name="Home">Home</string>
+    <string name="Home" translatable="false">Home</string>
+    <string name="new_here" translatable="false">New Here?</string>
+    <string name="NewHere" translatable="false">New Here?</string>
 
 </resources>

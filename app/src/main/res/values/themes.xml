@@ -7,6 +7,6 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:windowBackground">@drawable/background_red_glow</item>
-        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:fontFamily">@font/inknut_antiqua</item>
     </style>
 </resources>
