@@ -6,19 +6,19 @@
     android:layout_height="match_parent">
 
     <!-- 50% opacity background image -->
-    <ImageView
-        android:id="@+id/backgroundImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/background_red_glow"
-        android:scaleType="centerCrop"
-        android:alpha="0.5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/backgroundImage"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:src="@drawable/background_red_glow"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:alpha="0.5"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
-    <!-- Back arrow -->
+    <!-- Back arrow - Fixed position -->
     <ImageView
         android:id="@+id/backArrow"
         android:layout_width="24dp"
@@ -26,10 +26,11 @@
         android:src="@drawable/ic_arrow_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="16dp"
         app:tint="@android:color/white" />
 
-    <!-- Title -->
+    <!-- Title - Centered -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
@@ -39,68 +40,107 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:fontFamily="@font/inknut_antiqua"
-        app:layout_constraintTop_toBottomOf="@id/backArrow"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp" />
 
-    <!-- Subtitle -->
+    <!-- Subtitle - Centered with 2 lines -->
     <TextView
-        android:id="@+id/subtitleText"
+        android:id="@+id/subtitleText1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="We're excited to have you. Just a few steps to go."
+        android:text="We're excited to have you. Just"
         android:textSize="14sp"
         android:textColor="@android:color/white"
+        android:gravity="center"
         android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/titleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/subtitleText2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="a few steps to go."
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:fontFamily="@font/inknut_antiqua"
+        app:layout_constraintTop_toBottomOf="@id/subtitleText1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="2dp" />
+
+
 
     <!-- Email Input -->
     <EditText
         android:id="@+id/email_input"
-        style="@style/InputField"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:hint="Email"
-        app:layout_constraintTop_toBottomOf="@id/subtitleText"
+        android:gravity="center_vertical|start"
+        android:paddingStart="16dp"
+        android:background="@drawable/input_field_bg"
+        android:textColor="@android:color/white"
+        android:textColorHint="#AAAAAA"
+        android:fontFamily="@font/inknut_antiqua"
+        app:layout_constraintTop_toBottomOf="@id/subtitleText2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp" />
+        android:layout_marginTop="32dp" />
 
     <!-- Anime Id Input -->
     <EditText
         android:id="@+id/anime_id_input"
-        style="@style/InputField"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:hint="Anime Id"
+        android:gravity="center_vertical|start"
+        android:paddingStart="16dp"
+        android:background="@drawable/input_field_bg"
+        android:textColor="@android:color/white"
+        android:textColorHint="#AAAAAA"
+        android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/email_input"
         app:layout_constraintStart_toStartOf="@id/email_input"
         app:layout_constraintEnd_toEndOf="@id/email_input"
         android:layout_marginTop="16dp" />
 
-    <!-- User Name Input -->
+    <!-- User Name Input - Added as requested -->
     <EditText
         android:id="@+id/username_input"
-        style="@style/InputField"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:hint="User Name"
+        android:gravity="center_vertical|start"
+        android:paddingStart="16dp"
+        android:background="@drawable/input_field_bg"
+        android:textColor="@android:color/white"
+        android:textColorHint="#AAAAAA"
+        android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/anime_id_input"
-        app:layout_constraintStart_toStartOf="@id/email_input"
-        app:layout_constraintEnd_toEndOf="@id/email_input"
+        app:layout_constraintStart_toStartOf="@id/anime_id_input"
+        app:layout_constraintEnd_toEndOf="@id/anime_id_input"
         android:layout_marginTop="16dp" />
 
     <!-- Next Button -->
     <Button
         android:id="@+id/btn_next"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
+        android:layout_width="340dp"
+        android:layout_height="60dp"
         android:text="Next"
         android:textColor="@android:color/black"
         android:backgroundTint="@android:color/white"
         android:fontFamily="@font/inknut_antiqua"
+        android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/username_input"
         app:layout_constraintStart_toStartOf="@id/username_input"
         app:layout_constraintEnd_toEndOf="@id/username_input"
@@ -113,6 +153,7 @@
         android:layout_height="wrap_content"
         android:text="Or register with"
         android:textColor="@android:color/white"
+        android:textStyle="bold"
         android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/btn_next"
         app:layout_constraintStart_toStartOf="parent"
@@ -122,10 +163,10 @@
     <!-- Google Sign In Button -->
     <LinearLayout
         android:id="@+id/googleSignInButton"
-        android:layout_width="0dp"
+        android:layout_width="340dp"
         android:layout_height="52dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|center_horizontal"
         android:background="@drawable/input_field_bg"
         app:layout_constraintTop_toBottomOf="@id/dividerText"
         app:layout_constraintStart_toStartOf="@id/btn_next"
@@ -154,13 +195,13 @@
         android:id="@+id/already_account_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already have an account? "
+        android:text="Already have an account"
         android:textColor="@android:color/white"
         android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/googleSignInButton"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="24dp"
         android:layout_marginBottom="20dp"/>
 
     <!-- Log In Clickable Link -->
