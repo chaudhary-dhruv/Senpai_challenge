@@ -10,11 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:forceDarkAllowed="true"
         android:theme="@style/AppTheme">
 
         <!-- ✅ SignUpActivity as launcher -->
         <activity
-            android:name=".ui.auth.SplashScreen"
+            android:name=".ui.auth.ForgotPassword"
             android:exported="true"
             android:theme="@style/Theme.SenpaiChallenge">
             <intent-filter>

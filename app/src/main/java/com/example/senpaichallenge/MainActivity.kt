@@ -7,6 +7,7 @@ import com.example.senpaichallenge.databinding.ActivityMainBinding
 
 import com.example.senpaichallenge.ui.screens.HomeFragment
 import com.example.senpaichallenge.ui.screens.*
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Always use dark mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         // Default fragment
         loadFragment(HomeFragment())
