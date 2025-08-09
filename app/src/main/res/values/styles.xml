@@ -2,8 +2,8 @@
     <!-- Base application theme using AppCompat -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme colors if needed -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/red_500</item>
         <item name="colorAccent">@color/teal_200</item>
     </style>
 
@@ -16,4 +16,7 @@
         <item name="android:textColorHint">#B3FFFFFF</item>
         <item name="android:fontFamily">@font/inknut_antiqua</item>
     </style>
+
+
+
 </resources>

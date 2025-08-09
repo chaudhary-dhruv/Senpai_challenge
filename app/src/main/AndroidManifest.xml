@@ -14,7 +14,7 @@
 
         <!-- ✅ SignUpActivity as launcher -->
         <activity
-            android:name=".ui.auth.SignUpActivity"
+            android:name=".ui.auth.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.SenpaiChallenge">
             <intent-filter>

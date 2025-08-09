@@ -6,17 +6,17 @@
     android:layout_height="match_parent">
 
     <!-- 50% opacity background image -->
-<!--    <ImageView-->
-<!--        android:id="@+id/backgroundImage"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:src="@drawable/background_red_glow"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        android:alpha="0.5"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent" />-->
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/background_red_glow"
+        android:scaleType="centerCrop"
+        android:alpha="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Back arrow - Fixed position -->
     <ImageView
@@ -138,6 +138,7 @@
         android:layout_height="60dp"
         android:text="Next"
         android:textColor="@android:color/black"
+        android:background="@drawable/white_bg_button"
         android:backgroundTint="@android:color/white"
         android:fontFamily="@font/inknut_antiqua"
         android:textAllCaps="false"

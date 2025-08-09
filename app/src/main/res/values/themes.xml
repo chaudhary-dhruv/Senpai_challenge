@@ -1,12 +1,12 @@
 <resources>
     <style name="Theme.SenpaiChallenge" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize if needed -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/red_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:windowBackground">@drawable/background_red_glow</item>
+<!--        <item name="android:windowBackground">@drawable/background_red_glow</item>-->
         <item name="android:fontFamily">@font/inknut_antiqua</item>
     </style>
 </resources>
