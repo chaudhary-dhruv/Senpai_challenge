@@ -15,8 +15,9 @@
 
         <!-- ✅ SignUpActivity as launcher -->
         <activity
-            android:name=".ui.auth.ForgotPassword"
+            android:name=".MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SenpaiChallenge">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,10 +26,10 @@
         </activity>
 
         <!-- Keep MainActivity (not launcher now) -->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.SenpaiChallenge" />
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true"-->
+<!--            android:theme="@style/Theme.SenpaiChallenge" />-->
 
     </application>
 
