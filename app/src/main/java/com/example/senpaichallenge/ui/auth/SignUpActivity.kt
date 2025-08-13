@@ -36,6 +36,8 @@ class SignUpActivity : AppCompatActivity() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+        googleSignInClient.signOut() // Local sign-out
+        googleSignInClient.revokeAccess() // Force account chooser
 
         // ✅ Correct type cast to LinearLayout
         findViewById<LinearLayout>(R.id.googleSignInButton).setOnClickListener {
