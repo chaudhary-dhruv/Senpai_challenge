@@ -44,6 +44,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "228655378288-cs2dgehofiop6ulheb8iv2b3qar43ilf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.senpaichallenge",
+            "certificate_hash": "ae45b01528a61b8eb075b569c3332e444bb44972"
+          }
+        },
+        {
           "client_id": "228655378288-4p0g2lpcgbgdrcme1c7uolubr35ajgrr.apps.googleusercontent.com",
           "client_type": 3
         }

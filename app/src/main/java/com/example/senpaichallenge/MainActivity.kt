@@ -21,8 +21,13 @@ class MainActivity : AppCompatActivity() {
         // Always use dark mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-        // Default fragment
-        loadFragment(HomeFragment())
+        // Agar openProfile flag true hai to ProfileFragment load hoga
+        if (intent.getBooleanExtra("openProfile", false)) {
+            loadFragment(ProfileFragment())
+            binding.bottomNav.selectedItemId = R.id.nav_profile
+        } else {
+            loadFragment(HomeFragment())
+        }
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {

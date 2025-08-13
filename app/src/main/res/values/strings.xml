@@ -17,6 +17,7 @@
     <string name="new_here" translatable="false">New Here?</string>
     <string name="NewHere" translatable="false">New Here?</string>
     <string name="log_in">Log in</string>
-    
+    <string name="default_web_client_id">228655378288-4p0g2lpcgbgdrcme1c7uolubr35ajgrr.apps.googleusercontent.com</string>
+
 
 </resources>

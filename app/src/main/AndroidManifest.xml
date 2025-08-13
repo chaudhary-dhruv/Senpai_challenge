@@ -32,11 +32,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Keep MainActivity (not launcher now) -->
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@style/Theme.SenpaiChallenge" />-->
+<!--         Keep MainActivity (not launcher now) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SenpaiChallenge" />
 
     </application>
 
