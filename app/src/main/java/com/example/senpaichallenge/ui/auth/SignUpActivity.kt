@@ -29,6 +29,11 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.backArrow.setOnClickListener{
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
         auth = FirebaseAuth.getInstance()
 
         // Google Sign-In Config
