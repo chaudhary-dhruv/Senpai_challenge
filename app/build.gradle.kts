@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.senpaichallenge"
-    compileSdk = 36 // ✅ Use stable version (not 36 beta)
+    compileSdk = 36 //  Use stable version
 
     defaultConfig {
         applicationId = "com.example.senpaichallenge"
@@ -53,7 +53,7 @@ android {
 
 dependencies {
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
@@ -81,6 +81,10 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
 
     // Testing
