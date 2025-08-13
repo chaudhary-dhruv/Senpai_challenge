@@ -82,53 +82,57 @@
 
     <!-- Email Input -->
     <EditText
-        android:id="@+id/email_input"
+        android:id="@+id/email_input_signup"
         android:layout_width="340dp"
         android:layout_height="60dp"
         android:hint="Email"
-        android:gravity="center_vertical|start"
+        android:gravity="center_vertical"
         android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:background="@drawable/input_field_bg"
         android:textColor="@android:color/white"
-        android:textColorHint="#AAAAAA"
+        android:textColorHint="#FFFFFF"
+        android:inputType="textEmailAddress"
         android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/subtitleText2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp" />
 
-    <!-- Anime Id Input -->
+    <!-- password -->
     <EditText
-        android:id="@+id/anime_id_input"
+        android:id="@+id/password_input_signup"
         android:layout_width="340dp"
         android:layout_height="60dp"
-        android:hint="Anime Id"
-        android:gravity="center_vertical|start"
+        android:hint="Enter password"
+        android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:background="@drawable/input_field_bg"
         android:textColor="@android:color/white"
-        android:textColorHint="#AAAAAA"
+        android:textColorHint="#FFFFFF"
+        android:inputType="textPassword"
         android:fontFamily="@font/inknut_antiqua"
-        app:layout_constraintTop_toBottomOf="@id/email_input"
-        app:layout_constraintStart_toStartOf="@id/email_input"
-        app:layout_constraintEnd_toEndOf="@id/email_input"
+        app:layout_constraintTop_toBottomOf="@id/email_input_signup"
+        app:layout_constraintStart_toStartOf="@id/email_input_signup"
+        app:layout_constraintEnd_toEndOf="@id/email_input_signup"
         android:layout_marginTop="16dp" />
 
-    <!-- User Name Input - Added as requested -->
+    <!-- confirm password -->
     <EditText
-        android:id="@+id/username_input"
+        android:id="@+id/confirm_password"
         android:layout_width="340dp"
         android:layout_height="60dp"
-        android:hint="User Name"
-        android:gravity="center_vertical|start"
+        android:hint="Re-Enter Password"
+        android:gravity="center_vertical"
+        android:inputType="textPassword"
         android:paddingStart="16dp"
         android:background="@drawable/input_field_bg"
         android:textColor="@android:color/white"
-        android:textColorHint="#AAAAAA"
+        android:textColorHint="#FFFFFF"
         android:fontFamily="@font/inknut_antiqua"
-        app:layout_constraintTop_toBottomOf="@id/anime_id_input"
-        app:layout_constraintStart_toStartOf="@id/anime_id_input"
-        app:layout_constraintEnd_toEndOf="@id/anime_id_input"
+        app:layout_constraintTop_toBottomOf="@id/password_input_signup"
+        app:layout_constraintStart_toStartOf="@id/password_input_signup"
+        app:layout_constraintEnd_toEndOf="@id/password_input_signup"
         android:layout_marginTop="16dp" />
 
     <!-- Next Button -->
@@ -142,9 +146,9 @@
         android:backgroundTint="@android:color/white"
         android:fontFamily="@font/inknut_antiqua"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/username_input"
-        app:layout_constraintStart_toStartOf="@id/username_input"
-        app:layout_constraintEnd_toEndOf="@id/username_input"
+        app:layout_constraintTop_toBottomOf="@id/confirm_password"
+        app:layout_constraintStart_toStartOf="@id/confirm_password"
+        app:layout_constraintEnd_toEndOf="@id/confirm_password"
         android:layout_marginTop="24dp" />
 
     <!-- Divider Text -->

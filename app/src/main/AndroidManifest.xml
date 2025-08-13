@@ -20,6 +20,14 @@
         android:forceDarkAllowed="true"
         android:theme="@style/AppTheme">
 
+        <!--LoginActivity as launcher-->
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
+
         <!-- ✅ SignUpActivity as launcher -->
         <activity
             android:name=".ui.auth.SignUpActivity"
@@ -32,7 +40,8 @@
             </intent-filter>
         </activity>
 
-<!--         Keep MainActivity (not launcher now) -->
+
+        <!--Keep MainActivity (not launcher now) -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
