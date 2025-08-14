@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.senpaichallenge.R
 import androidx.appcompat.app.AppCompatDelegate
 
-class PasswordActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_set_password)
+        setContentView(R.layout.activity_fill_detail)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 }

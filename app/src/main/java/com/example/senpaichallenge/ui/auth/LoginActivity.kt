@@ -32,6 +32,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        // Back - Arrow
         binding.backArrow.setOnClickListener{
             startActivity(Intent(this, SplashScreen::class.java))
             finish()
@@ -51,6 +53,12 @@ class LoginActivity : AppCompatActivity() {
         // Sign Up link
         binding.registerClickable.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
+            finish()
+        }
+
+        // Forgot Password link
+        binding.forgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPassword::class.java))
             finish()
         }
 

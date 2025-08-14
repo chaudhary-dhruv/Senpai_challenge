@@ -46,6 +46,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SenpaiChallenge" />
 
+        <!--ForgotPasswordActivity as launcher-->
+        <activity
+            android:name=".ui.auth.ForgotPassword"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
         <!--Keep MainActivity (not launcher now) -->
         <activity
             android:name=".MainActivity"
