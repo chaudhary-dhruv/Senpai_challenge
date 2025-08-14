@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.senpaichallenge.MainActivity
 import com.example.senpaichallenge.R
 import com.example.senpaichallenge.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -32,10 +30,9 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         // Back - Arrow
-        binding.backArrow.setOnClickListener{
-            startActivity(Intent(this, SplashScreen::class.java))
+        binding.backArrow.setOnClickListener {
+            startActivity(Intent(this, ChoiceActivity::class.java))
             finish()
         }
 
@@ -47,8 +44,8 @@ class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-        googleSignInClient.signOut() // Local sign-out
-        googleSignInClient.revokeAccess() // Force account chooser
+        googleSignInClient.signOut()
+        googleSignInClient.revokeAccess()
 
         // Sign Up link
         binding.registerClickable.setOnClickListener {
@@ -70,9 +67,13 @@ class LoginActivity : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty()) {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        goToMain()
+                        goToNextStep()
                     } else {
-                        Toast.makeText(this, it.exception?.message ?: "Login Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            it.exception?.message ?: "Login Failed",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             } else {
@@ -114,16 +115,16 @@ class LoginActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                goToMain()
+                goToNextStep()
             } else {
                 Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun goToMain() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("openProfile", true)
+    private fun goToNextStep() {
+        val intent = Intent(this, SplashScreen::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }

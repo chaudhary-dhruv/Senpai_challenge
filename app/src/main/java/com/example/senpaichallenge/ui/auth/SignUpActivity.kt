@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.senpaichallenge.MainActivity
 import com.example.senpaichallenge.R
 import com.example.senpaichallenge.databinding.ActivitySignUpBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -29,7 +28,7 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.backArrow.setOnClickListener{
+        binding.backArrow.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
@@ -42,9 +41,8 @@ class SignUpActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-        googleSignInClient.signOut() // Local sign-out
-        googleSignInClient.revokeAccess() // Force account chooser
-
+        googleSignInClient.signOut()
+        googleSignInClient.revokeAccess()
 
         // Go to Login
         binding.loginLink.setOnClickListener {
@@ -62,9 +60,13 @@ class SignUpActivity : AppCompatActivity() {
                 if (pass == confirmPass) {
                     auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            goToMain()
+                            goToNextStep()
                         } else {
-                            Toast.makeText(this, it.exception?.message ?: "Signup Failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                it.exception?.message ?: "Signup Failed",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 } else {
@@ -75,7 +77,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        // Google Sign-In Button (LinearLayout click listener)
+        // Google Sign-In Button
         findViewById<LinearLayout>(R.id.googleSignInButton).setOnClickListener {
             signInGoogle()
         }
@@ -109,16 +111,16 @@ class SignUpActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                goToMain()
+                goToNextStep()
             } else {
                 Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun goToMain() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("openProfile", true)
+    private fun goToNextStep() {
+        val intent = Intent(this, SplashScreen::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
