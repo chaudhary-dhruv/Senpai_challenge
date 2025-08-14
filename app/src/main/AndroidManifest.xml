@@ -32,6 +32,7 @@
             </intent-filter>
         </activity>
 
+
         <!--  SignUpActivity as launcher -->
         <activity
             android:name=".ui.auth.SignUpActivity"
@@ -71,6 +72,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SenpaiChallenge" />
 
     </application>

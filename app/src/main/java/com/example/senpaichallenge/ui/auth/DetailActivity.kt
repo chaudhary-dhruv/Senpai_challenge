@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.senpaichallenge.MainActivity
 import com.example.senpaichallenge.R
 import com.google.firebase.auth.FirebaseAuth
@@ -32,6 +33,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fill_detail)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         usernameInput = findViewById(R.id.username_input)
         animeIdInput = findViewById(R.id.anime_id_input)

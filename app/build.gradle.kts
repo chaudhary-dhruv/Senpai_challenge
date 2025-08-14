@@ -71,6 +71,10 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
     implementation("androidx.compose.runtime:runtime-livedata:1.5.0")
 
+
+    //GSON
+    implementation("com.google.code.gson:gson:2.13.1")
+
     // Existing dependencies from libs.versions.toml
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
