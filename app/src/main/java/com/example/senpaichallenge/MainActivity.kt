@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.senpaichallenge.databinding.ActivityMainBinding
 
-import com.example.senpaichallenge.ui.screens.HomeFragment
+
 import com.example.senpaichallenge.ui.screens.*
 import androidx.appcompat.app.AppCompatDelegate
 

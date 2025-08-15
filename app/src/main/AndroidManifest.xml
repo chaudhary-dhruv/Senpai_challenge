@@ -75,6 +75,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SenpaiChallenge" />
 
+        <!--QuizActivity as launcher-->
+        <activity
+            android:name=".ui.quiz.QuizActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
+        <!--ScoreCardActivity as launcher-->
+        <activity
+            android:name=".ui.quiz.ScoreCardActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
     </application>
 
 

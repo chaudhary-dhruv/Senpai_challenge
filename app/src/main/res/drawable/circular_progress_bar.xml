@@ -1,0 +1,16 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:useLevel="true"
+    android:innerRadiusRatio="3"
+    android:thicknessRatio="15"
+    android:angle="0"
+    android:visible="true">
+
+    <!-- Background circle -->
+    <solid android:color="#33FFFFFF" />
+
+    <!-- Progress color -->
+    <stroke
+        android:width="10dp"
+        android:color="@color/white" />
+</shape>

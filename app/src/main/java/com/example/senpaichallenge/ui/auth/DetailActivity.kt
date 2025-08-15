@@ -79,19 +79,32 @@ class DetailActivity : AppCompatActivity() {
 
         val randomAvatar = avatars[Random.nextInt(avatars.size)]
 
-        // Initial score structure
-        val animeScores = hashMapOf<String, Int>()
-        for (i in 1..15) {
-            animeScores["anime_$i"] = 0
+        // Anime list as per JSON file
+        val animeList = listOf(
+            "naruto", "one_punch_man", "my_hero_academia", "akira",
+            "your_name", "hunter_x_hunter", "bleach", "one_piece",
+            "demon_slayer", "attack_on_titan", "dragon_ball_z",
+            "jujutsu_kaisen", "spirited_away", "boruto", "death_note"
+        )
+
+        // Create nested maps
+        val animePointsMap = hashMapOf<String, Int>()
+        val lastIndexMap = hashMapOf<String, Int>()
+
+        animeList.forEach { anime ->
+            animePointsMap[anime] = 0
+            lastIndexMap[anime] = 0
         }
 
-        val userMap = hashMapOf(
+        // Final user data
+        val userMap = hashMapOf<String, Any>(
             "username" to username,
             "animeId" to animeId,
             "avatar" to randomAvatar,
-            "score" to 0,
-            "animeScores" to animeScores,
-            "email" to email
+            "email" to email,
+            "totalPoints" to 0,
+            "animePoints" to animePointsMap,
+            "lastIndex" to lastIndexMap
         )
 
         firestore.collection("users").document(uid)
@@ -104,6 +117,8 @@ class DetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error saving profile", Toast.LENGTH_SHORT).show()
             }
     }
+
+
 
     private fun goToMain() {
         val intent = Intent(this, MainActivity::class.java)
