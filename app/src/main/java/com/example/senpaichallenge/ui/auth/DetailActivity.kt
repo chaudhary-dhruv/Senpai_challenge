@@ -87,24 +87,23 @@ class DetailActivity : AppCompatActivity() {
             "jujutsu_kaisen", "spirited_away", "boruto", "death_note"
         )
 
-        // Create nested maps
+        // Initialize points & lastIndex
         val animePointsMap = hashMapOf<String, Int>()
         val lastIndexMap = hashMapOf<String, Int>()
-
         animeList.forEach { anime ->
             animePointsMap[anime] = 0
             lastIndexMap[anime] = 0
         }
 
         // Final user data
-        val userMap = hashMapOf<String, Any>(
+        val userMap = hashMapOf(
             "username" to username,
             "animeId" to animeId,
             "avatar" to randomAvatar,
             "email" to email,
             "totalPoints" to 0,
-            "animePoints" to animePointsMap,
-            "lastIndex" to lastIndexMap
+            "animePoints" to animePointsMap, // nested map
+            "lastIndex" to lastIndexMap      // nested map
         )
 
         firestore.collection("users").document(uid)
@@ -117,8 +116,6 @@ class DetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error saving profile", Toast.LENGTH_SHORT).show()
             }
     }
-
-
 
     private fun goToMain() {
         val intent = Intent(this, MainActivity::class.java)
