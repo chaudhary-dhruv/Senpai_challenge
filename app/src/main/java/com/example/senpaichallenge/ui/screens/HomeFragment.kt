@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.senpaichallenge.R
 import com.example.senpaichallenge.adapters.QuizAdapter
@@ -26,7 +27,7 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerViewQuizzes)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = QuizAdapter(requireContext(), quizItems)
         recyclerView.adapter = adapter
 

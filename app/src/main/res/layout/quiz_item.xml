@@ -1,34 +1,17 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:id="@+id/cardContainer"
-    android:elevation="8dp"
+    android:layout_height="150dp"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    android:foreground="?attr/selectableItemBackground">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imgAnimeCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="16dp">
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true" />
 
-        <ImageView
-            android:id="@+id/quizIcon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/white" />
-
-        <TextView
-            android:id="@+id/quizTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Naruto"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp" />
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
