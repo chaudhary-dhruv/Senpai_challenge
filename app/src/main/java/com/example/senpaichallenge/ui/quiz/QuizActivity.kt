@@ -2,35 +2,45 @@ package com.example.senpaichallenge.ui.quiz
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.senpaichallenge.MainActivity
 import com.example.senpaichallenge.R
+import com.example.senpaichallenge.adapters.OptionAdapter
 import com.example.senpaichallenge.models.Question
 import com.example.senpaichallenge.models.Quiz
-import com.example.senpaichallenge.adapters.OptionAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
 
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var questionText: TextView
-    private lateinit var btnPrev: Button
+    private lateinit var questionCountText: TextView
+    private lateinit var timerText: TextView
+    private lateinit var progressBar: ProgressBar
     private lateinit var btnNext: Button
     private lateinit var btnSubmit: Button
-
-    private var animeName = ""
-    private var index = 1
 
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
+    private var animeName = ""
+    private var index = 1
+    private var score = 0
+    private var lastIndexFromDB = 0
+    private var perQuestionAward = mutableMapOf<Int, Int>()
+
     private var quiz: Quiz? = null
     private val questions: MutableMap<String, Question> = mutableMapOf()
+
+    private var timer: CountDownTimer? = null
+    private val questionTime = 30_000L // 30s per question
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,34 +54,54 @@ class QuizActivity : AppCompatActivity() {
         }
 
         initViews()
-        loadQuestionsFromFirestore()
+        loadUserLastIndexThenQuestions()
     }
 
     private fun initViews() {
         questionText = findViewById(R.id.questionText)
-        btnPrev = findViewById(R.id.btnPrevious)
+        questionCountText = findViewById(R.id.tvQuestionCount)
+        timerText = findViewById(R.id.timerText)
+        progressBar = findViewById(R.id.progressBarTimer)
         btnNext = findViewById(R.id.btnNext)
         btnSubmit = findViewById(R.id.btnSubmit)
 
-        btnPrev.setOnClickListener {
-            if (index > 1) {
-                index--
-                bindViews()
-            }
-        }
+        // ✅ Next button validation
         btnNext.setOnClickListener {
-            if (index < questions.size) {
-                index++
-                bindViews()
+            val currentQuestion = questions["question$index"]
+            if (currentQuestion?.userAnswerIndex == null) {
+                score -= 100
+            } else {
+                if (index < questions.size) {
+                    index++
+                    bindViews()
+                }
             }
         }
         btnSubmit.setOnClickListener {
-            val intent = Intent(this, ScoreCardActivity::class.java)
-            val json = Gson().toJson(quiz)
-            intent.putExtra("QUIZ_DATA", json)
-            startActivity(intent)
-            finish()
+            val currentQuestion = questions["question$index"]
+            if (currentQuestion?.userAnswerIndex == null) {
+                Toast.makeText(this, "Select the option", Toast.LENGTH_SHORT).show()
+            } else {
+                saveScoreToFirestore()
+            }
         }
+    }
+
+    private fun loadUserLastIndexThenQuestions() {
+        val uid = auth.currentUser?.uid ?: run {
+            Toast.makeText(this, "Not logged in", Toast.LENGTH_SHORT).show()
+            finish(); return
+        }
+        firestore.collection("users").document(uid)
+            .get()
+            .addOnSuccessListener { doc ->
+                lastIndexFromDB = (doc.get("lastIndex.$animeName") as? Number)?.toInt() ?: 0
+                loadQuestionsFromFirestore()
+            }
+            .addOnFailureListener {
+                lastIndexFromDB = 0
+                loadQuestionsFromFirestore()
+            }
     }
 
     private fun loadQuestionsFromFirestore() {
@@ -85,8 +115,18 @@ class QuizActivity : AppCompatActivity() {
                     return@addOnSuccessListener
                 }
 
+                val sessionQuestions = questionsArray
+                    .drop(lastIndexFromDB)
+                    .take(10)
+
+                if (sessionQuestions.isEmpty()) {
+                    Toast.makeText(this, "No more questions for $animeName", Toast.LENGTH_SHORT).show()
+                    finish()
+                    return@addOnSuccessListener
+                }
+
                 var count = 1
-                for (qData in questionsArray) {
+                for (qData in sessionQuestions) {
                     val opts = qData["options"] as List<*>
                     val q = Question(
                         description = qData["text"].toString(),
@@ -100,11 +140,7 @@ class QuizActivity : AppCompatActivity() {
                     count++
                 }
 
-                quiz = Quiz(
-                    id = animeName,
-                    title = animeName,
-                    questions = questions
-                )
+                quiz = Quiz(id = animeName, title = animeName, questions = questions)
                 bindViews()
             }
             .addOnFailureListener {
@@ -113,29 +149,134 @@ class QuizActivity : AppCompatActivity() {
             }
     }
 
-
     private fun bindViews() {
-        btnPrev.visibility = View.GONE
+        timer?.cancel()
+
         btnNext.visibility = View.GONE
         btnSubmit.visibility = View.GONE
 
         when (index) {
-            1 -> btnNext.visibility = View.VISIBLE
-            questions.size -> {
-                btnPrev.visibility = View.VISIBLE
-                btnSubmit.visibility = View.VISIBLE
-            }
-            else -> {
-                btnPrev.visibility = View.VISIBLE
-                btnNext.visibility = View.VISIBLE
-            }
+            questions.size -> btnSubmit.visibility = View.VISIBLE
+            else -> btnNext.visibility = View.VISIBLE
         }
 
         val question = questions["question$index"] ?: return
         questionText.text = question.description
+        questionCountText.text = "Question $index/${questions.size}"
 
         val rv = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.optionsRecyclerView)
         rv.layoutManager = LinearLayoutManager(this)
-        rv.adapter = OptionAdapter(this, question)
+        rv.adapter = OptionAdapter(this, question) { selected ->
+            // ✅ New scoring logic: Correct = +100, Wrong = -25
+            val gained = if (selected == question.correctIndex) 100 else -25
+            val prev = perQuestionAward[index] ?: 0
+            score += (gained - prev)
+            perQuestionAward[index] = gained
+        }
+
+        startTimer()
+    }
+
+    private fun startTimer() {
+        progressBar.max = (questionTime / 1000).toInt()
+        progressBar.progress = progressBar.max
+
+        timer = object : CountDownTimer(questionTime, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = (millisUntilFinished / 1000).toInt()
+                timerText.text = "Time: ${seconds}s"
+                progressBar.progress = seconds
+            }
+
+            override fun onFinish() {
+                val currentQuestion = questions["question$index"]
+                if (currentQuestion?.userAnswerIndex == null) {
+                    // ✅ Time finished & no option selected → -50
+                    val prev = perQuestionAward[index] ?: 0
+                    score += (-50 - prev)
+                    perQuestionAward[index] = -50
+                }
+
+                if (index < questions.size) {
+                    index++
+                    bindViews()
+                } else {
+                    saveScoreToFirestore()
+                }
+            }
+        }.start()
+    }
+
+    private var quizFinished = false
+
+    private fun saveScoreToFirestore() {
+        timer?.cancel()
+        quizFinished = true
+        val uid = auth.currentUser?.uid ?: run {
+            goToScoreCard()
+            return
+        }
+
+        val answeredCount = questions.size
+        val userDoc = firestore.collection("users").document(uid)
+        firestore.runTransaction { tx ->
+            val snap = tx.get(userDoc)
+            val currentTotal = snap.getLong("totalPoints") ?: 0
+            val animePts = (snap.get("animePoints.$animeName") as? Long) ?: 0
+            val lastIdx = (snap.get("lastIndex.$animeName") as? Long) ?: 0
+
+            tx.update(userDoc, mapOf(
+                "totalPoints" to (currentTotal + score),
+                "animePoints.$animeName" to (animePts + score),
+                "lastIndex.$animeName" to (lastIdx + answeredCount)
+            ))
+        }.addOnCompleteListener {
+            goToScoreCard()
+        }
+    }
+
+    private fun goToScoreCard() {
+        quizFinished = true   // ✅ Mark as finished
+        val intent = Intent(this, ScoreCardActivity::class.java)
+        intent.putExtra("SCORE", score)
+        intent.putExtra("TOTAL", questions.size * 100)
+        intent.putExtra("ANIME_NAME", animeName)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        if (!quizFinished) {   // ✅ Sirf tabhi jab quiz puri nahi hui ho
+            Toast.makeText(this, "You left the quiz. Returning to home.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("OPEN_FRAGMENT", "HOME")
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
+    }
+
+
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer?.cancel()
+    }
+
+
+    // immersive fullscreen mode
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            window.decorView.systemUiVisibility =
+                (View.SYSTEM_UI_FLAG_IMMERSIVE
+                        or View.SYSTEM_UI_FLAG_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+        }
     }
 }

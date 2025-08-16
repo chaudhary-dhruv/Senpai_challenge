@@ -136,6 +136,7 @@
         android:layout_marginTop="16dp" />
 
     <!-- Next Button -->
+    <!--android:textAllCaps="false" : this line is responsible for all capital text in button-->
     <Button
         android:id="@+id/btn_next"
         android:layout_width="340dp"
