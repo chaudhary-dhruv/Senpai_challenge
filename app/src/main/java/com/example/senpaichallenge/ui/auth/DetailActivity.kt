@@ -117,6 +117,7 @@ class DetailActivity : AppCompatActivity() {
             }
     }
 
+
     private fun goToMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("openProfile", true)

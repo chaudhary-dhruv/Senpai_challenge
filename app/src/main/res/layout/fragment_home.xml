@@ -2,8 +2,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@drawable/bg_red_glow">
+<!--   agar background pasand na aye to change kar lena ::: android:background="@android:color/black-->
 
+
+    <!-- 🔹 Fixed Header (WhatsApp style) -->
+    <LinearLayout
+        android:id="@+id/userHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="16dp">
+
+        <!-- Circular Avatar -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUserAvatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/avatar1"
+            android:layout_marginEnd="12dp" />
+
+        <!-- Username -->
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Guest"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <!-- 🔹 Quiz List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewQuizzes"
         android:layout_width="match_parent"
@@ -11,4 +46,5 @@
         android:clipToPadding="false"
         android:paddingBottom="100dp"
         android:scrollbars="vertical" />
+
 </LinearLayout>

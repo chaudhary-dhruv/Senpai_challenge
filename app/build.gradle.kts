@@ -66,6 +66,9 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
 
+    //circular image for profile
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
     // Compose Runtime (✅ These are the correct ones to avoid crashing Theme.kt)
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material3:material3:1.1.2")
