@@ -1,0 +1,21 @@
+<resources>
+    <string-array name="points_filter_options">
+        <item>All</item>
+        <item>Akira</item>
+        <item>Attack on Titan</item>
+        <item>Bleach</item>
+        <item>Boruto</item>
+        <item>Death Note</item>
+        <item>Demon Slayer</item>
+        <item>Dragon Ball Z</item>
+        <item>Hunter X Hunter</item>
+        <item>Jujutsu Kaisen</item>
+        <item>My Hero Academia</item>
+        <item>Naruto</item>
+        <item>One Piece</item>
+        <item>Spirited Away</item>
+        <item>Your Name</item>
+
+
+    </string-array>
+</resources>
