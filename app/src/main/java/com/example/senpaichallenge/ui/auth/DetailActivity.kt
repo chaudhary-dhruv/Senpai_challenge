@@ -103,7 +103,8 @@ class DetailActivity : AppCompatActivity() {
             "email" to email,
             "totalPoints" to 0,
             "animePoints" to animePointsMap, // nested map
-            "lastIndex" to lastIndexMap      // nested map
+            "lastIndex" to lastIndexMap,     // nested map
+            "bio" to "No bio yet! ✨"         // 🔹 default bio
         )
 
         firestore.collection("users").document(uid)
@@ -116,7 +117,6 @@ class DetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error saving profile", Toast.LENGTH_SHORT).show()
             }
     }
-
 
     private fun goToMain() {
         val intent = Intent(this, MainActivity::class.java)

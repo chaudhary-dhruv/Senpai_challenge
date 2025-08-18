@@ -1,5 +1,6 @@
 package com.example.senpaichallenge.ui.screens
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.senpaichallenge.R
+import com.example.senpaichallenge.ui.profile.EditProfileActivity
+import com.example.senpaichallenge.ui.profile.SettingsActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import de.hdodenhof.circleimageview.CircleImageView
@@ -29,6 +32,8 @@ class ProfileFragment : Fragment() {
     // 🔹 Total max points
     private val TOTAL_MAX_POINTS = 750000
     private val ANIME_MAX_POINTS = 50000
+
+
 
     // 🔹 Anime list
     private val animeList = listOf(
@@ -57,6 +62,18 @@ class ProfileFragment : Fragment() {
         tvTotalPoints = view.findViewById(R.id.tvTotalPoints)
         pointsProgressBar = view.findViewById(R.id.pointsProgressBar)
         spinner = view.findViewById(R.id.pointsFilterSpinner)
+
+        //Edit Profile
+        view.findViewById<Button>(R.id.btnEditProfile).setOnClickListener {
+            startActivity(Intent(requireContext(), EditProfileActivity::class.java))
+        }
+
+        //Setting icon
+        view.findViewById<ImageButton>(R.id.btnSettings).setOnClickListener {
+            startActivity(Intent(requireContext(), SettingsActivity::class.java))
+        }
+
+
 
         // Spinner setup
         val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, animeList)
@@ -88,8 +105,10 @@ class ProfileFragment : Fragment() {
             .addOnSuccessListener { doc ->
                 if (doc.exists()) {
                     val username = doc.getString("username") ?: "Guest"
+                    val animeId = doc.getString("animeId") ?: "UnknownID"
                     val avatarName = doc.getString("avatar") ?: "avatar1"
                     val bio = doc.getString("bio") ?: "No bio yet! ✨"
+
                     userTotalPoints = (doc.getLong("totalPoints") ?: 0L).toInt()
 
                     // animePoints fetch
@@ -101,7 +120,10 @@ class ProfileFragment : Fragment() {
                     if (resId != 0) avatarImage.setImageResource(resId)
                     else avatarImage.setImageResource(R.drawable.avatar1)
 
-                    usernameText.text = username
+                    // 👇 Data bind (swapped as per your request)
+                    usernameText.text = animeId   // tvUsername → animeId
+                    view?.findViewById<TextView>(R.id.tvBadge)?.text = username  // tvBadge → username
+
                     bioText.text = bio
                     tvPoints.text = userTotalPoints.toString()
 
@@ -113,6 +135,7 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed to load user data", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     private fun loadRanking() {
         firestore.collection("users")

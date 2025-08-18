@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_red_glow"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.profile.EditProfileActivity">
+
+    <!-- Toolbar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Edit Profile"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:fontFamily="@font/inknut_antiqua"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Username -->
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:maxLength="25"
+        android:background="@drawable/input_field_bg"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="24dp"
+        android:inputType="textPersonName" />
+
+    <!-- Bio -->
+    <EditText
+        android:id="@+id/etBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bio"
+        android:maxLength="100"
+        android:background="@drawable/input_field_bg"
+        android:padding="12dp"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:inputType="textMultiLine"
+        android:lines="3" />
+
+    <!-- Apply Changes Button -->
+    <Button
+        android:id="@+id/btnApplyChanges"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/input_field_bg"
+        android:text="Apply Changes"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/inknut_antiqua"
+        android:textAllCaps="false" />
+
+    <!-- Progress (hidden by default) -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

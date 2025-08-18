@@ -250,7 +250,8 @@
                         android:spinnerMode="dropdown"
                         android:paddingHorizontal="12dp"
                         android:gravity="center_vertical"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        tools:ignore="RtlCompat" />
                 </RelativeLayout>
 
                 <ProgressBar

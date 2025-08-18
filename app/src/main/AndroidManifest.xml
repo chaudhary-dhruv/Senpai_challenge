@@ -89,6 +89,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SenpaiChallenge" />
 
+        <!--EditProfile as launcher-->
+        <activity
+            android:name=".ui.profile.EditProfileActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
+        <!--Setting button as launcher-->
+        <activity
+            android:name=".ui.profile.SettingsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
+
     </application>
 
 
