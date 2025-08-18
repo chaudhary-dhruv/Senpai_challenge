@@ -1,6 +1,6 @@
 package com.example.senpaichallenge.adapters
 
-
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.senpaichallenge.R
 import com.example.senpaichallenge.models.UserModel
+import com.example.senpaichallenge.ui.profile.UserProfileActivity
 import de.hdodenhof.circleimageview.CircleImageView
 
 class LeaderboardAdapter(private val users: List<UserModel>) :
@@ -41,7 +42,7 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
             holder.bind(top3)
         } else if (holder is NormalViewHolder) {
             val user = users[position]
-            holder.bind(user, position + 3) // +1 for rank
+            holder.bind(user, position + 3) // +3 because top3 block already taken
         }
     }
 
@@ -67,6 +68,10 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
                 tvFirstPoints.text = "${u.points} pts"
                 val resId = itemView.context.resources.getIdentifier(u.avatar, "drawable", itemView.context.packageName)
                 imgFirst.setImageResource(resId)
+
+                itemView.findViewById<View>(R.id.cardFirst)?.setOnClickListener {
+                    openProfile(itemView, u, 1)
+                }
             }
             if (top3.size > 1) {
                 val u = top3[1]
@@ -74,6 +79,10 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
                 tvSecondPoints.text = "${u.points} pts"
                 val resId = itemView.context.resources.getIdentifier(u.avatar, "drawable", itemView.context.packageName)
                 imgSecond.setImageResource(resId)
+
+                itemView.findViewById<View>(R.id.cardSecond)?.setOnClickListener {
+                    openProfile(itemView, u, 2)
+                }
             }
             if (top3.size > 2) {
                 val u = top3[2]
@@ -81,7 +90,23 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
                 tvThirdPoints.text = "${u.points} pts"
                 val resId = itemView.context.resources.getIdentifier(u.avatar, "drawable", itemView.context.packageName)
                 imgThird.setImageResource(resId)
+
+                itemView.findViewById<View>(R.id.cardThird)?.setOnClickListener {
+                    openProfile(itemView, u, 3)
+                }
             }
+        }
+
+        private fun openProfile(view: View, user: UserModel, rank: Int) {
+            val context = view.context
+            val intent = Intent(context, UserProfileActivity::class.java)
+            intent.putExtra("username", user.username)
+            intent.putExtra("animeId", user.animeId)
+            intent.putExtra("avatar", user.avatar)
+            intent.putExtra("bio", user.bio)
+            intent.putExtra("rank", rank)
+            intent.putExtra("points", user.points)
+            context.startActivity(intent)
         }
     }
 
@@ -98,6 +123,19 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
 
             val resId = itemView.context.resources.getIdentifier(user.avatar, "drawable", itemView.context.packageName)
             imgAvatar.setImageResource(resId)
+
+            // 🔹 OnClick → open UserProfileActivity
+            itemView.setOnClickListener {
+                val context = itemView.context
+                val intent = Intent(context, UserProfileActivity::class.java)
+                intent.putExtra("username", user.username)
+                intent.putExtra("animeId", user.animeId)
+                intent.putExtra("avatar", user.avatar)
+                intent.putExtra("bio", user.bio)
+                intent.putExtra("rank", rank)
+                intent.putExtra("points", user.points)
+                context.startActivity(intent)
+            }
         }
     }
 }

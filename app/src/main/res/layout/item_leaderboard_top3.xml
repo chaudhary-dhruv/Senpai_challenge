@@ -1,196 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:gravity="center"
-    android:padding="8dp">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
-    <!-- 2nd Place -->
+    <!-- Second Place -->
     <LinearLayout
-        android:id="@+id/secondPlace"
+        android:id="@+id/cardSecond"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:gravity="center"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgSecond"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/avatar2" />
-
-        <!-- Rank Badge -->
-        <TextView
-            android:id="@+id/tvSecondRank"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/rank_badge_bg"
-            android:gravity="center"
-            android:text="2"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="-8dp" />
+            app:civ_border_color="@android:color/white"
+            app:civ_border_width="2dp"
+            android:src="@drawable/avatar2"/>
 
         <TextView
             android:id="@+id/tvSecondName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="anime345"
+            android:text="User2"
             android:textColor="@android:color/white"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvSecondPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rank_input"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="2dp"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_star"
-                app:tint="@android:color/white"
-                android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:id="@+id/tvSecondPoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="429k"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+            android:text="12k pts"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"/>
     </LinearLayout>
 
-    <!-- 1st Place -->
+    <!-- First Place (center, bigger) -->
     <LinearLayout
-        android:id="@+id/firstPlace"
+        android:id="@+id/cardFirst"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.2"
+        android:orientation="vertical"
         android:gravity="center"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgFirst"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/avatar1" />
-
-        <TextView
-            android:id="@+id/tvFirstRank"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/rank_badge_bg"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="-12dp" />
+            app:civ_border_color="@android:color/white"
+            app:civ_border_width="2dp"
+            android:src="@drawable/avatar1"/>
 
         <TextView
             android:id="@+id/tvFirstName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Naruto123"
-            android:textStyle="bold"
+            android:text="User1"
             android:textColor="@android:color/white"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:layout_marginTop="4dp" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvFirstPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rank_input"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="2dp"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_star"
-                app:tint="@android:color/white"
-                android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:id="@+id/tvFirstPoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="430k"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+            android:text="20k pts"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"/>
     </LinearLayout>
 
-    <!-- 3rd Place -->
+    <!-- Third Place -->
     <LinearLayout
-        android:id="@+id/thirdPlace"
+        android:id="@+id/cardThird"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:gravity="center"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgThird"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/avatar3" />
-
-        <TextView
-            android:id="@+id/tvThirdRank"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/rank_badge_bg"
-            android:gravity="center"
-            android:text="3"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="-8dp" />
+            app:civ_border_color="@android:color/white"
+            app:civ_border_width="2dp"
+            android:src="@drawable/avatar3"/>
 
         <TextView
             android:id="@+id/tvThirdName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Demon34"
+            android:text="User3"
             android:textColor="@android:color/white"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvThirdPoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rank_input"
-            android:paddingHorizontal="6dp"
-            android:paddingVertical="2dp"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_star"
-                app:tint="@android:color/white"
-                android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:id="@+id/tvThirdPoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="425k"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+            android:text="10k pts"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"/>
     </LinearLayout>
+
 </LinearLayout>

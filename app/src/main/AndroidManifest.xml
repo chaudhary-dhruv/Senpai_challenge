@@ -103,6 +103,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SenpaiChallenge" />
 
+        <!--User Profile activity as launcher-->
+        <activity
+            android:name=".ui.profile.UserProfileActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
 
     </application>
 

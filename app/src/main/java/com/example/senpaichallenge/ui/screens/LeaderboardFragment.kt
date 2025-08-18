@@ -48,13 +48,15 @@ class LeaderboardFragment : Fragment() {
                     val animeId = doc.getString("animeId") ?: "UnknownID"
                     val avatar = doc.getString("avatar") ?: "avatar1"
                     val points = (doc.getLong("totalPoints") ?: 0L).toInt()
+                    val bio = doc.getString("bio") ?: ""
 
                     userList.add(
                         UserModel(
                             username = username,
                             animeId = animeId,
                             avatar = avatar,
-                            points = points
+                            points = points,
+                            bio = bio
                         )
                     )
                 }
