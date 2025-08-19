@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Drawable XML for a radial gradient background.
+  Save this file in your project's res/drawable/ folder.
+  You can then apply it to any View's background property.
+  Example: android:background="@drawable/background_gradient"
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <!-- Background gradient -->
+    <!-- Define the gradient properties -->
     <gradient
         android:type="radial"
-        android:gradientRadius="400dp"
-        android:startColor="#FF0000"
-        android:endColor="#000000"
-        android:centerX="0.5"
-        android:centerY="0.4" />
+        android:gradientRadius="80%p"
+        android:startColor="#B71C1C"
+        android:endColor="#000000" />
+
+    <!-- Define the rounded corners -->
+    <corners
+        android:radius="12dp" />
 
 </shape>
