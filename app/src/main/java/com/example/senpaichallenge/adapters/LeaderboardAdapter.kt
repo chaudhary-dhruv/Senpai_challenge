@@ -100,6 +100,7 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
         private fun openProfile(view: View, user: UserModel, rank: Int) {
             val context = view.context
             val intent = Intent(context, UserProfileActivity::class.java)
+            intent.putExtra("uid", user.uid)
             intent.putExtra("username", user.username)
             intent.putExtra("animeId", user.animeId)
             intent.putExtra("avatar", user.avatar)
@@ -128,6 +129,7 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
             itemView.setOnClickListener {
                 val context = itemView.context
                 val intent = Intent(context, UserProfileActivity::class.java)
+                intent.putExtra("uid", user.uid)
                 intent.putExtra("username", user.username)
                 intent.putExtra("animeId", user.animeId)
                 intent.putExtra("avatar", user.avatar)

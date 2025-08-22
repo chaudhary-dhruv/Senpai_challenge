@@ -110,6 +110,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SenpaiChallenge" />
 
+        <!--Chat activity as launcher-->
+        <activity
+            android:name=".ui.screens.ChatActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SenpaiChallenge" />
+
 
     </application>
 

@@ -97,6 +97,7 @@ class DetailActivity : AppCompatActivity() {
 
         // Final user data
         val userMap = hashMapOf(
+            "uid" to uid,
             "username" to username,
             "animeId" to animeId,
             "avatar" to randomAvatar,

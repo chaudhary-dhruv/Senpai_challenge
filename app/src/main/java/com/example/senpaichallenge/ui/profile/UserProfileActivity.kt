@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.senpaichallenge.R
+import com.example.senpaichallenge.ui.screens.ChatFragment
 import de.hdodenhof.circleimageview.CircleImageView
 
 class UserProfileActivity : AppCompatActivity() {
@@ -27,6 +28,7 @@ class UserProfileActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
 
         // 🔹 Get data from Intent
+        val uid = intent.getStringExtra("uid") //  get uid
         val username = intent.getStringExtra("username")
         val animeId = intent.getStringExtra("animeId")
         val avatar = intent.getStringExtra("avatar")
@@ -47,7 +49,19 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         btnMessage.setOnClickListener {
-            // TODO: Message screen open (future step)
+            val chatFragment = ChatFragment().apply {
+                arguments = Bundle().apply {
+                    putString("receiverId", uid) // yaha tum Firestore ka userId pass karege
+                }
+            }
+
+            // Agar tum fragments bottom navigation ke andar use kar rahe ho
+            (this@UserProfileActivity as? AppCompatActivity)?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.fragment_container, chatFragment)
+                ?.addToBackStack(null)
+                ?.commit()
         }
+
     }
 }

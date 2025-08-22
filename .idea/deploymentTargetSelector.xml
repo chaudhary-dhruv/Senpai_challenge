@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-17T18:48:00.937196400Z">
+        <DropdownSelection timestamp="2025-08-21T08:02:35.549878400Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Minato\.android\avd\Pixel_7_API.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=RZCX91VC40N" />
             </handle>
           </Target>
         </DropdownSelection>
