@@ -36,33 +36,63 @@ class ChatFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ChatListAdapter(users) { user ->
-            // 🔹 Jab user par click ho → ChatActivity open
             val intent = Intent(requireContext(), ChatActivity::class.java)
-            intent.putExtra("receiverId", user.userId)
+            intent.putExtra("receiverId", user.userId)   // correct UID
             intent.putExtra("username", user.username)
             intent.putExtra("avatar", user.avatar)
             startActivity(intent)
         }
         recyclerView.adapter = adapter
 
-        loadUsers()
+        // 🔹 Load chats instead of just users
+        loadChats()
 
         return view
     }
 
-    private fun loadUsers() {
-        db.collection("users")
+    private fun loadChats() {
+        db.collection("chats")
+            .whereArrayContains("participants", currentUserId)
             .addSnapshotListener { snapshots, error ->
                 if (error != null || snapshots == null) return@addSnapshotListener
 
                 users.clear()
                 for (doc in snapshots) {
-                    val user = doc.toObject(ChatUser::class.java)
-                    if (user.userId != currentUserId) {
-                        users.add(user)
-                    }
+                    val participants = doc.get("participants") as? List<*>
+                    if (participants.isNullOrEmpty()) continue
+
+                    // find the other user (receiver)
+                    val otherUserId = participants.firstOrNull { it != currentUserId } as? String ?: continue
+
+                    val lastMessage = doc.getString("lastMessage") ?: ""
+                    val lastSeen = doc.getLong("lastTimestamp") ?: 0L
+
+                    // 🔹 fetch user info from users/{uid}
+                    db.collection("users").document(otherUserId).get()
+                        .addOnSuccessListener { userDoc ->
+                            val username = userDoc.getString("username") ?: ""
+                            val animeId = userDoc.getString("animeId") ?: ""
+                            val avatar = userDoc.getString("avatar") ?: "avatar1"
+
+                            val chatUser = ChatUser(
+                                userId = otherUserId,
+                                username = if (username.isNotEmpty()) username else animeId,
+                                animeId = animeId,
+                                avatar = avatar,
+                                lastMessage = lastMessage,
+                                lastSeen = lastSeen
+                            )
+
+                            // avoid duplicates
+                            val index = users.indexOfFirst { it.userId == otherUserId }
+                            if (index >= 0) {
+                                users[index] = chatUser
+                            } else {
+                                users.add(chatUser)
+                            }
+                            adapter.notifyDataSetChanged()
+                        }
                 }
-                adapter.notifyDataSetChanged()
             }
     }
 }

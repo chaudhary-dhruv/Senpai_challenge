@@ -1,10 +1,13 @@
 package com.example.senpaichallenge.ui.screens
 
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.senpaichallenge.R
@@ -13,6 +16,7 @@ import com.example.senpaichallenge.models.ChatMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ChatActivity : AppCompatActivity() {
@@ -22,6 +26,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var btnSend: ImageButton
     private lateinit var tvUserName: TextView
     private lateinit var imgAvatar: CircleImageView
+    private lateinit var inputBar: View
 
     private val messages = mutableListOf<ChatMessage>()
     private lateinit var adapter: ChatBubbleAdapter
@@ -41,8 +46,9 @@ class ChatActivity : AppCompatActivity() {
         btnSend = findViewById(R.id.btnSend)
         tvUserName = findViewById(R.id.tvUserName)
         imgAvatar = findViewById(R.id.imgAvatar)
+        inputBar = findViewById(R.id.inputBar)
 
-        // 🔹 Intent se data get
+        // Intent data
         receiverId = intent.getStringExtra("receiverId") ?: ""
         username = intent.getStringExtra("username") ?: ""
         avatar = intent.getStringExtra("avatar") ?: ""
@@ -51,22 +57,41 @@ class ChatActivity : AppCompatActivity() {
         val resId = resources.getIdentifier(avatar, "drawable", packageName)
         if (resId != 0) imgAvatar.setImageResource(resId)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val lm = LinearLayoutManager(this).apply {
+            stackFromEnd = true // last message visible at bottom
+        }
+        recyclerView.layoutManager = lm
         adapter = ChatBubbleAdapter(messages)
         recyclerView.adapter = adapter
+
+        // Keep inputBar above keyboard & nav bar
+        ViewCompat.setOnApplyWindowInsetsListener(inputBar) { v, insets ->
+            val ime = insets.getInsets(
+                WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.systemBars()
+            )
+            v.setPadding(ime.left, v.paddingTop, ime.right, ime.bottom)
+            insets
+        }
+
+        // Add extra bottom padding to list so last msg not hidden by inputBar/IME
+        ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { v, insets ->
+            val ime = insets.getInsets(
+                WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.systemBars()
+            )
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, ime.bottom + v.paddingBottom)
+            insets
+        }
 
         if (receiverId.isNotEmpty()) {
             loadMessages()
         }
 
-        btnSend.setOnClickListener {
-            sendMessage()
-        }
+        btnSend.setOnClickListener { sendMessage() }
+        findViewById<ImageButton>(R.id.btnBack)?.setOnClickListener { finish() }
     }
 
     private fun loadMessages() {
         val chatId = getChatId(currentUserId, receiverId)
-
         db.collection("chats")
             .document(chatId)
             .collection("messages")
@@ -86,9 +111,11 @@ class ChatActivity : AppCompatActivity() {
 
     private fun sendMessage() {
         val text = edtMessage.text.toString().trim()
-        if (text.isEmpty() || receiverId.isEmpty()) return
+        if (text.isEmpty() || receiverId.isEmpty() || currentUserId.isEmpty()) return
 
         val chatId = getChatId(currentUserId, receiverId)
+        val chatRef = db.collection("chats").document(chatId)
+
         val msg = ChatMessage(
             senderId = currentUserId,
             receiverId = receiverId,
@@ -96,12 +123,21 @@ class ChatActivity : AppCompatActivity() {
             timestamp = System.currentTimeMillis()
         )
 
-        db.collection("chats")
-            .document(chatId)
-            .collection("messages")
-            .add(msg)
+        // ensure chat meta exists (participants etc.)
+        val chatMeta = mapOf(
+            "participants" to listOf(currentUserId, receiverId),
+            "lastMessage" to text,
+            "lastTimestamp" to msg.timestamp
+        )
+        chatRef.set(chatMeta, SetOptions.merge())
 
-        edtMessage.setText("")
+        chatRef.collection("messages")
+            .add(msg)
+            .addOnSuccessListener {
+                edtMessage.setText("")
+                recyclerView.scrollToPosition(messages.size - 1)
+            }
+            .addOnFailureListener { it.printStackTrace() }
     }
 
     private fun getChatId(user1: String, user2: String): String {

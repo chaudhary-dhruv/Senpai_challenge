@@ -1,11 +1,13 @@
 package com.example.senpaichallenge.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.senpaichallenge.R
+import com.example.senpaichallenge.ui.screens.ChatActivity
 import com.example.senpaichallenge.ui.screens.ChatFragment
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -49,19 +51,16 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         btnMessage.setOnClickListener {
-            val chatFragment = ChatFragment().apply {
-                arguments = Bundle().apply {
-                    putString("receiverId", uid) // yaha tum Firestore ka userId pass karege
+            if (!uid.isNullOrEmpty()) {
+                val intent = Intent(this, ChatActivity::class.java).apply {
+                    putExtra("receiverId", uid)
+                    putExtra("username", username)
+                    putExtra("avatar", avatar)
                 }
+                startActivity(intent)
             }
-
-            // Agar tum fragments bottom navigation ke andar use kar rahe ho
-            (this@UserProfileActivity as? AppCompatActivity)?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.fragment_container, chatFragment)
-                ?.addToBackStack(null)
-                ?.commit()
         }
+
 
     }
 }

@@ -114,8 +114,9 @@
         <activity
             android:name=".ui.screens.ChatActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.SenpaiChallenge" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
 
     </application>
