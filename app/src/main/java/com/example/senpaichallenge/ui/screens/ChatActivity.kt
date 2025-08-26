@@ -1,5 +1,6 @@
 package com.example.senpaichallenge.ui.screens
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -13,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.senpaichallenge.R
 import com.example.senpaichallenge.adapters.ChatBubbleAdapter
 import com.example.senpaichallenge.models.ChatMessage
+import com.example.senpaichallenge.ui.profile.UserProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.FieldValue
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ChatActivity : AppCompatActivity() {
@@ -36,6 +39,9 @@ class ChatActivity : AppCompatActivity() {
     private var receiverId: String = ""
     private var username: String = ""
     private var avatar: String = ""
+    private var bio: String = ""
+    private var rank: Int = -1
+    private var points: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,21 +56,19 @@ class ChatActivity : AppCompatActivity() {
 
         // Intent data
         receiverId = intent.getStringExtra("receiverId") ?: ""
-        username = intent.getStringExtra("username") ?: ""
-        avatar = intent.getStringExtra("avatar") ?: ""
 
-        tvUserName.text = username
-        val resId = resources.getIdentifier(avatar, "drawable", packageName)
-        if (resId != 0) imgAvatar.setImageResource(resId)
-
-        val lm = LinearLayoutManager(this).apply {
-            stackFromEnd = true // last message visible at bottom
+        // 🔹 Firestore se receiver ka full data fetch karo
+        if (receiverId.isNotEmpty()) {
+            loadReceiverProfile(receiverId)
+            loadMessages()
         }
+
+        val lm = LinearLayoutManager(this).apply { stackFromEnd = true }
         recyclerView.layoutManager = lm
         adapter = ChatBubbleAdapter(messages)
         recyclerView.adapter = adapter
 
-        // Keep inputBar above keyboard & nav bar
+        // Insets handle (keyboard / nav bar)
         ViewCompat.setOnApplyWindowInsetsListener(inputBar) { v, insets ->
             val ime = insets.getInsets(
                 WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.systemBars()
@@ -72,29 +76,58 @@ class ChatActivity : AppCompatActivity() {
             v.setPadding(ime.left, v.paddingTop, ime.right, ime.bottom)
             insets
         }
-
-        // Add extra bottom padding to list so last msg not hidden by inputBar/IME
         ViewCompat.setOnApplyWindowInsetsListener(recyclerView) { v, insets ->
             val ime = insets.getInsets(
                 WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.systemBars()
             )
-            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, ime.bottom + v.paddingBottom)
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, ime.bottom)
             insets
-        }
-
-        if (receiverId.isNotEmpty()) {
-            loadMessages()
         }
 
         btnSend.setOnClickListener { sendMessage() }
         findViewById<ImageButton>(R.id.btnBack)?.setOnClickListener { finish() }
+
+        // 🔹 Username & Avatar click → Open UserProfileActivity
+        val openProfile = View.OnClickListener {
+            val intent = Intent(this, UserProfileActivity::class.java).apply {
+                putExtra("uid", receiverId)
+                putExtra("username", username)
+                putExtra("avatar", avatar)
+                putExtra("bio", bio)
+                putExtra("rank", rank)
+                putExtra("points", points)
+            }
+            startActivity(intent)
+        }
+        tvUserName.setOnClickListener(openProfile)
+        imgAvatar.setOnClickListener(openProfile)
+    }
+
+    // 🔹 Receiver profile load from Firestore
+    private fun loadReceiverProfile(userId: String) {
+        db.collection("users").document(userId)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc != null && doc.exists()) {
+                    username = doc.getString("username") ?: "Unknown"
+                    avatar = doc.getString("avatar") ?: "avatar1"
+                    bio = doc.getString("bio") ?: "No bio available"
+                    rank = doc.getLong("rank")?.toInt() ?: -1
+                    points = doc.getLong("points")?.toInt() ?: 0
+
+                    // UI update
+                    tvUserName.text = username
+                    val resId = resources.getIdentifier(avatar, "drawable", packageName)
+                    if (resId != 0) imgAvatar.setImageResource(resId)
+                }
+            }
     }
 
     private fun loadMessages() {
         val chatId = getChatId(currentUserId, receiverId)
-        db.collection("chats")
-            .document(chatId)
-            .collection("messages")
+        val chatRef = db.collection("chats").document(chatId)
+
+        chatRef.collection("messages")
             .orderBy("timestamp", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshots, error ->
                 if (error != null || snapshots == null) return@addSnapshotListener
@@ -103,9 +136,17 @@ class ChatActivity : AppCompatActivity() {
                 for (doc in snapshots) {
                     val msg = doc.toObject(ChatMessage::class.java)
                     messages.add(msg)
+
+                    // 🔹 If I am receiver → mark as seen
+                    if (msg.receiverId == currentUserId && !msg.seen) {
+                        doc.reference.update("seen", true)
+                    }
                 }
                 adapter.notifyDataSetChanged()
                 recyclerView.scrollToPosition(messages.size - 1)
+
+                // ✅ Reset unreadCount for me
+                chatRef.update("unreadCount.$currentUserId", 0)
             }
     }
 
@@ -120,10 +161,10 @@ class ChatActivity : AppCompatActivity() {
             senderId = currentUserId,
             receiverId = receiverId,
             message = text,
-            timestamp = System.currentTimeMillis()
+            timestamp = System.currentTimeMillis(),
+            seen = false
         )
 
-        // ensure chat meta exists (participants etc.)
         val chatMeta = mapOf(
             "participants" to listOf(currentUserId, receiverId),
             "lastMessage" to text,
@@ -131,13 +172,15 @@ class ChatActivity : AppCompatActivity() {
         )
         chatRef.set(chatMeta, SetOptions.merge())
 
+        // ✅ unreadCount increase only for receiver
+        chatRef.update("unreadCount.$receiverId", FieldValue.increment(1))
+
         chatRef.collection("messages")
             .add(msg)
             .addOnSuccessListener {
                 edtMessage.setText("")
                 recyclerView.scrollToPosition(messages.size - 1)
             }
-            .addOnFailureListener { it.printStackTrace() }
     }
 
     private fun getChatId(user1: String, user2: String): String {

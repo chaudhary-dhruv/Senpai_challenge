@@ -7,5 +7,6 @@ data class ChatUser(
     val animeId: String = "",
     val avatar: String = "",
     val lastMessage: String = "",
-    val lastSeen: Long = 0L
+    val lastSeen: Long = 0L,
+    val unreadCount: Int = 0
 )

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.example.senpaichallenge.adapters.ChatListAdapter
 import com.example.senpaichallenge.models.ChatUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import de.hdodenhof.circleimageview.CircleImageView
 
 class ChatFragment : Fragment() {
 
@@ -21,6 +24,9 @@ class ChatFragment : Fragment() {
     private lateinit var etSearch: EditText
     private lateinit var adapter: ChatListAdapter
     private val users = mutableListOf<ChatUser>()
+
+    private lateinit var avatarImage: CircleImageView
+    private lateinit var usernameText: TextView
 
     private val db = FirebaseFirestore.getInstance()
     private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
@@ -31,23 +37,60 @@ class ChatFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
+        // 🔹 Header Views
+        avatarImage = view.findViewById(R.id.imgAvatar)
+        usernameText = view.findViewById(R.id.tvUserName)
+
         recyclerView = view.findViewById(R.id.rvMessages)
         etSearch = view.findViewById(R.id.etSearch)
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = ChatListAdapter(users) { user ->
             val intent = Intent(requireContext(), ChatActivity::class.java)
-            intent.putExtra("receiverId", user.userId)   // correct UID
+            intent.putExtra("receiverId", user.userId)
             intent.putExtra("username", user.username)
             intent.putExtra("avatar", user.avatar)
             startActivity(intent)
         }
         recyclerView.adapter = adapter
 
-        // 🔹 Load chats instead of just users
-        loadChats()
+        // 🔹 Current user ka header load karo
+        loadCurrentUser()
 
+        // 🔹 Chats load karo
+        loadChats()
         return view
+    }
+
+    private fun loadCurrentUser() {
+        if (currentUserId.isEmpty()) return
+
+        db.collection("users").document(currentUserId)
+            .get()
+            .addOnSuccessListener { doc ->
+                if (doc.exists()) {
+                    val username = doc.getString("username") ?: "Guest"
+                    val avatarName = doc.getString("avatar") ?: "avatar1"
+
+                    // Avatar set karo
+                    val resId = resources.getIdentifier(
+                        avatarName,
+                        "drawable",
+                        requireContext().packageName
+                    )
+                    if (resId != 0) {
+                        avatarImage.setImageResource(resId)
+                    } else {
+                        avatarImage.setImageResource(R.drawable.avatar1)
+                    }
+
+                    // Username set karo
+                    usernameText.text = username
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load profile", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun loadChats() {
@@ -61,13 +104,14 @@ class ChatFragment : Fragment() {
                     val participants = doc.get("participants") as? List<*>
                     if (participants.isNullOrEmpty()) continue
 
-                    // find the other user (receiver)
                     val otherUserId = participants.firstOrNull { it != currentUserId } as? String ?: continue
 
                     val lastMessage = doc.getString("lastMessage") ?: ""
                     val lastSeen = doc.getLong("lastTimestamp") ?: 0L
 
-                    // 🔹 fetch user info from users/{uid}
+                    val unreadMap = doc.get("unreadCount") as? Map<*, *>
+                    val unreadCount = (unreadMap?.get(currentUserId) as? Long)?.toInt() ?: 0
+
                     db.collection("users").document(otherUserId).get()
                         .addOnSuccessListener { userDoc ->
                             val username = userDoc.getString("username") ?: ""
@@ -80,10 +124,10 @@ class ChatFragment : Fragment() {
                                 animeId = animeId,
                                 avatar = avatar,
                                 lastMessage = lastMessage,
-                                lastSeen = lastSeen
+                                lastSeen = lastSeen,
+                                unreadCount = unreadCount
                             )
 
-                            // avoid duplicates
                             val index = users.indexOfFirst { it.userId == otherUserId }
                             if (index >= 0) {
                                 users[index] = chatUser

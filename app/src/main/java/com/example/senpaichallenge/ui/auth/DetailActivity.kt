@@ -19,6 +19,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var animeIdInput: EditText
     private lateinit var btnContinue: Button
 
+    // 25 predefined avatars
     private val avatars = listOf(
         "avatar1", "avatar2", "avatar3", "avatar4", "avatar5",
         "avatar6", "avatar7", "avatar8", "avatar9", "avatar10",
@@ -52,6 +53,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    // 🔹 Step 1: Check if AnimeID already exists
     private fun checkAnimeIdAndSave(username: String, animeId: String) {
         firestore.collection("users")
             .whereEqualTo("animeId", animeId)
@@ -68,6 +70,7 @@ class DetailActivity : AppCompatActivity() {
             }
     }
 
+    // 🔹 Step 2: Save new user data
     private fun saveUserData(username: String, animeId: String) {
         val uid = auth.currentUser?.uid
         val email = auth.currentUser?.email
@@ -79,7 +82,7 @@ class DetailActivity : AppCompatActivity() {
 
         val randomAvatar = avatars[Random.nextInt(avatars.size)]
 
-        // Anime list as per JSON file
+        // All anime list (for quiz progress tracking)
         val animeList = listOf(
             "naruto", "one_punch_man", "my_hero_academia", "akira",
             "your_name", "hunter_x_hunter", "bleach", "one_piece",
@@ -87,7 +90,7 @@ class DetailActivity : AppCompatActivity() {
             "jujutsu_kaisen", "spirited_away", "boruto", "death_note"
         )
 
-        // Initialize points & lastIndex
+        // Initialize anime points & progress index
         val animePointsMap = hashMapOf<String, Int>()
         val lastIndexMap = hashMapOf<String, Int>()
         animeList.forEach { anime ->
@@ -95,17 +98,17 @@ class DetailActivity : AppCompatActivity() {
             lastIndexMap[anime] = 0
         }
 
-        // Final user data
+        // 🔹 Final user object for Firestore
         val userMap = hashMapOf(
             "uid" to uid,
             "username" to username,
             "animeId" to animeId,
             "avatar" to randomAvatar,
             "email" to email,
-            "totalPoints" to 0,
-            "animePoints" to animePointsMap, // nested map
-            "lastIndex" to lastIndexMap,     // nested map
-            "bio" to "No bio yet! ✨"         // 🔹 default bio
+            "totalPoints" to 0,                 // ✅ Correct field for points
+            "animePoints" to animePointsMap,    // nested map for per-anime points
+            "lastIndex" to lastIndexMap,        // nested map for quiz progress
+            "bio" to "No bio yet! ✨"            // ✅ Default bio
         )
 
         firestore.collection("users").document(uid)
@@ -119,6 +122,7 @@ class DetailActivity : AppCompatActivity() {
             }
     }
 
+    // 🔹 Step 3: Go to Main screen
     private fun goToMain() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("openProfile", true)
