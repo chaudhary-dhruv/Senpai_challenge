@@ -2,6 +2,8 @@ package com.example.senpaichallenge.ui.screens
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,7 @@ class ChatFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var etSearch: EditText
     private lateinit var adapter: ChatListAdapter
+
     private val users = mutableListOf<ChatUser>()
 
     private lateinit var avatarImage: CircleImageView
@@ -37,7 +40,6 @@ class ChatFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
-        // 🔹 Header Views
         avatarImage = view.findViewById(R.id.imgAvatar)
         usernameText = view.findViewById(R.id.tvUserName)
 
@@ -54,17 +56,28 @@ class ChatFragment : Fragment() {
         }
         recyclerView.adapter = adapter
 
-        // 🔹 Current user ka header load karo
         loadCurrentUser()
+        loadChats() // by default chat list load karo
 
-        // 🔹 Chats load karo
-        loadChats()
+        // 🔹 Firestore search
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().trim()
+                if (query.isEmpty()) {
+                    loadChats() // agar search clear ho jaye to wapas chats show karo
+                } else {
+                    searchUsers(query)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
         return view
     }
 
     private fun loadCurrentUser() {
         if (currentUserId.isEmpty()) return
-
         db.collection("users").document(currentUserId)
             .get()
             .addOnSuccessListener { doc ->
@@ -72,24 +85,14 @@ class ChatFragment : Fragment() {
                     val username = doc.getString("username") ?: "Guest"
                     val avatarName = doc.getString("avatar") ?: "avatar1"
 
-                    // Avatar set karo
                     val resId = resources.getIdentifier(
                         avatarName,
                         "drawable",
                         requireContext().packageName
                     )
-                    if (resId != 0) {
-                        avatarImage.setImageResource(resId)
-                    } else {
-                        avatarImage.setImageResource(R.drawable.avatar1)
-                    }
-
-                    // Username set karo
+                    if (resId != 0) avatarImage.setImageResource(resId)
                     usernameText.text = username
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to load profile", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -105,7 +108,6 @@ class ChatFragment : Fragment() {
                     if (participants.isNullOrEmpty()) continue
 
                     val otherUserId = participants.firstOrNull { it != currentUserId } as? String ?: continue
-
                     val lastMessage = doc.getString("lastMessage") ?: ""
                     val lastSeen = doc.getLong("lastTimestamp") ?: 0L
 
@@ -128,15 +130,81 @@ class ChatFragment : Fragment() {
                                 unreadCount = unreadCount
                             )
 
-                            val index = users.indexOfFirst { it.userId == otherUserId }
-                            if (index >= 0) {
-                                users[index] = chatUser
-                            } else {
+                            if (users.none { it.userId == otherUserId }) {
                                 users.add(chatUser)
                             }
                             adapter.notifyDataSetChanged()
                         }
                 }
+            }
+    }
+
+    private fun searchUsers(query: String) {
+        users.clear()
+        val lowerQuery = query.lowercase()
+
+        // 🔹 Username search
+        db.collection("users")
+            .orderBy("username")
+            .startAt(lowerQuery)
+            .endAt(lowerQuery + "\uf8ff")
+            .get()
+            .addOnSuccessListener { result ->
+                for (doc in result) {
+                    val userId = doc.id
+                    if (userId == currentUserId) continue // apna profile skip
+                    val username = doc.getString("username") ?: ""
+                    val animeId = doc.getString("animeId") ?: ""
+                    val avatar = doc.getString("avatar") ?: "avatar1"
+
+                    val chatUser = ChatUser(
+                        userId = userId,
+                        username = username,
+                        animeId = animeId,
+                        avatar = avatar,
+                        lastMessage = "",
+                        lastSeen = 0,
+                        unreadCount = 0
+                    )
+
+                    if (users.none { it.userId == userId }) {
+                        users.add(chatUser)
+                    }
+                }
+
+                // 🔹 AnimeID search bhi run karo
+                db.collection("users")
+                    .orderBy("animeId")
+                    .startAt(lowerQuery)
+                    .endAt(lowerQuery + "\uf8ff")
+                    .get()
+                    .addOnSuccessListener { animeResult ->
+                        for (doc in animeResult) {
+                            val userId = doc.id
+                            if (userId == currentUserId) continue
+                            val username = doc.getString("username") ?: ""
+                            val animeId = doc.getString("animeId") ?: ""
+                            val avatar = doc.getString("avatar") ?: "avatar1"
+
+                            val chatUser = ChatUser(
+                                userId = userId,
+                                username = username,
+                                animeId = animeId,
+                                avatar = avatar,
+                                lastMessage = "",
+                                lastSeen = 0,
+                                unreadCount = 0
+                            )
+
+                            if (users.none { it.userId == userId }) {
+                                users.add(chatUser)
+                            }
+                        }
+                        adapter.notifyDataSetChanged()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Search failed", Toast.LENGTH_SHORT).show()
             }
     }
 }
