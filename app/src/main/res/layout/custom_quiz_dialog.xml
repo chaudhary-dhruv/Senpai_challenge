@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Quiz?"
+        android:fontFamily="@font/inknut_antiqua"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -22,8 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Get ready! Do you want to start \nthis quiz?"
-        android:textColor="@android:color/white"
+        android:textColor="#BCBCBC"
         android:textSize="14sp"
+        android:fontFamily="@font/inknut_antiqua"
         android:gravity="center" />
 
     <LinearLayout
@@ -34,20 +36,22 @@
         android:layout_marginTop="20dp">
 
         <Button
-            android:id="@+id/btnStart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Start"
-            android:textColor="@android:color/black"
-            android:backgroundTint="@android:color/white" />
-
-        <Button
             android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Cancel"
+            android:fontFamily="@font/inknut_antiqua"
+            android:textColor="@android:color/black"
+            android:backgroundTint="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Start"
+            android:fontFamily="@font/inknut_antiqua"
             android:textColor="@android:color/white"
             android:backgroundTint="@android:color/holo_red_dark"
             android:layout_marginStart="10dp"/>

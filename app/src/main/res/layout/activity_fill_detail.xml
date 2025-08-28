@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:text="For Security, your password must be 6 characters or more."
         android:textSize="14sp"
-        android:textColor="@android:color/white"
+        android:textColor="#CBC5C4"
         android:fontFamily="@font/inknut_antiqua"
         android:gravity="center"
         android:layout_marginTop="4dp"
@@ -73,6 +73,7 @@
         android:background="@drawable/input_field_bg"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textSize="15dp"
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
         android:textColorHint="#B3FFFFFF"
@@ -92,6 +93,7 @@
         android:background="@drawable/input_field_bg"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textSize="15dp"
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
         android:textColorHint="#B3FFFFFF"
@@ -112,6 +114,7 @@
         android:fontFamily="@font/inknut_antiqua"
         android:background="@drawable/white_bg_button"
         android:layout_marginTop="24dp"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/username_input"
         app:layout_constraintStart_toStartOf="@id/username_input"
         app:layout_constraintEnd_toEndOf="@id/username_input"/>
@@ -127,21 +130,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="20dp">
 
-        <TextView
-            android:id="@+id/already_account_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Already have an account? "
-            android:textColor="@android:color/white"
-            android:fontFamily="@font/inknut_antiqua"/>
 
-        <TextView
-            android:id="@+id/login_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="log in"
-            android:textColor="@android:color/holo_blue_light"
-            android:textStyle="bold"
-            android:fontFamily="@font/inknut_antiqua"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
