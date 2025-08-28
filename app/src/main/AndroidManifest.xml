@@ -20,6 +20,16 @@
         android:forceDarkAllowed="true"
         android:theme="@style/AppTheme">
 
+        <!--Notification Sercise-->
+<!--        <service-->
+<!--            android:name=".notifications.MyFirebaseMessagingService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+
 
         <activity
             android:name=".ui.auth.SplashScreen"

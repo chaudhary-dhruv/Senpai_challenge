@@ -11,6 +11,7 @@ import com.example.senpaichallenge.MainActivity
 import com.example.senpaichallenge.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlin.random.Random
 
 class DetailActivity : AppCompatActivity() {
@@ -114,6 +115,12 @@ class DetailActivity : AppCompatActivity() {
         firestore.collection("users").document(uid)
             .set(userMap)
             .addOnSuccessListener {
+                // ✅ FCM token save after profile created
+                FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                    firestore.collection("users").document(uid)
+                        .update("fcmToken", token)
+                }
+
                 Toast.makeText(this, "Profile created successfully!", Toast.LENGTH_SHORT).show()
                 goToMain()
             }

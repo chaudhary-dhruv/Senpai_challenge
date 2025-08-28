@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.senpaichallenge.R
 import com.example.senpaichallenge.databinding.ActivitySignUpBinding
+import com.example.senpaichallenge.utils.UiUtils.toggleLoadingButton
+import com.example.senpaichallenge.utils.UiUtils.toggleLoadingGoogle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -60,7 +62,9 @@ class SignUpActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
                 if (pass == confirmPass) {
+                    toggleLoadingButton(binding.btnNext, binding.progressBar, true, "Next")
                     auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
+                        toggleLoadingButton(binding.btnNext, binding.progressBar, false, "Next")
                         if (it.isSuccessful) {
                             goToNextStep()
                         } else {
@@ -80,7 +84,9 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         // Google Sign-In Button
-        findViewById<LinearLayout>(R.id.googleSignInButton).setOnClickListener {
+        val googleBtn = findViewById<LinearLayout>(R.id.googleSignInButton)
+        googleBtn.setOnClickListener {
+            toggleLoadingGoogle(googleBtn, binding.progressBar, true)
             signInGoogle()
         }
     }
@@ -92,6 +98,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            toggleLoadingGoogle(findViewById(R.id.googleSignInButton), binding.progressBar, false)
             if (result.resultCode == Activity.RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 handleResults(task)
@@ -112,6 +119,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener {
+            toggleLoadingGoogle(findViewById(R.id.googleSignInButton), binding.progressBar, false)
             if (it.isSuccessful) {
                 goToNextStep()
             } else {
