@@ -32,6 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sample Question"
+            android:lineSpacingMultiplier="0.8"
+            android:lineSpacingExtra="-5dp"
             android:textSize="18sp"
             android:textStyle="bold"
             android:fontFamily="@font/inknut_antiqua"

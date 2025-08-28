@@ -53,6 +53,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="For Security, your password must be 6 characters or more."
+        android:lineSpacingMultiplier="0.8"
+        android:lineSpacingExtra="-5dp"
         android:textSize="14sp"
         android:textColor="#CBC5C4"
         android:fontFamily="@font/inknut_antiqua"

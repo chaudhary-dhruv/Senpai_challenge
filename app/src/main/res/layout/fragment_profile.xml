@@ -57,9 +57,7 @@
                     android:id="@+id/imgUserAvatar"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:src="@drawable/avatar1"
-                    app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp" />
+                    android:src="@drawable/avatar1" />
 
                 <!-- Username -->
                 <TextView
@@ -88,16 +86,19 @@
                         android:fontFamily="@font/inknut_antiqua"
                         android:text="OtakuVerse"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp" />
+                        android:textSize="17dp" />
+
 
                     <TextView
                         android:id="@+id/tvBio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="-12dp"
                         android:fontFamily="@font/inknut_antiqua"
                         android:text="Anime enthusiast 👍\nManga writer ✅\nAnime Boy ✅"
-                        android:textColor="@android:color/darker_gray"
+                        android:lineSpacingMultiplier="0.8"
+                        android:lineSpacingExtra="-7dp"
+                        android:textColor="#CBC5C4"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -154,7 +155,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_leaderboard"
-                            app:tint="@android:color/darker_gray" />
+                            app:tint="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -194,7 +195,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_points"
-                            app:tint="@android:color/darker_gray" />
+                            app:tint="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -221,7 +222,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical"
                 android:paddingHorizontal="16dp">
 
@@ -242,10 +243,10 @@
                     <Spinner
                         android:id="@+id/pointsFilterSpinner"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/spinner_background"
+                        android:background="@drawable/input_field_bg"
                         android:popupBackground="@color/black"
                         android:spinnerMode="dropdown"
                         android:paddingHorizontal="12dp"

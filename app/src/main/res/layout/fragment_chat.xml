@@ -11,14 +11,14 @@
         android:layout_height="56dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="8dp">
+        android:paddingLeft="8dp">
 
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgAvatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/avatar1"/>
 
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Otaku234"
+            android:paddingLeft="8dp"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"/>

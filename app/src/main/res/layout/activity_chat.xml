@@ -74,16 +74,19 @@
             android:id="@+id/btnAttach"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/input_field_bg"
             android:src="@drawable/ic_attach"
             app:tint="@android:color/white" />
 
         <EditText
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:id="@+id/edtMessage"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:hint="Message..."
+            android:textSize="14dp"
             android:background="@drawable/input_field_bg"
             android:paddingHorizontal="12dp"
             android:textColor="@android:color/white"
@@ -93,7 +96,7 @@
             android:id="@+id/btnSend"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/input_field_bg"
             android:src="@drawable/ic_send"
             app:tint="@android:color/white" />
     </LinearLayout>

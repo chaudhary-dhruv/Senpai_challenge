@@ -50,33 +50,31 @@
         android:id="@+id/subtitleText1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="We're excited to have you. Just"
+
+        android:text="We're excited to have you. Just \na few steps to go."
         android:textSize="14sp"
         android:textColor="#CBC5C4"
         android:gravity="center"
+        android:lineSpacingExtra="-5dp"
+        android:lineSpacingMultiplier="0.8"
         android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/titleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="-8dp" />
 
     <TextView
         android:id="@+id/subtitleText2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="a few steps to go."
-        android:textSize="14sp"
-        android:textColor="#CBC5C4"
-        android:gravity="center"
-        android:fontFamily="@font/inknut_antiqua"
         app:layout_constraintTop_toBottomOf="@id/subtitleText1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="2dp" />
+         />
 
 
 
@@ -98,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@id/subtitleText2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="0dp" />
 
     <!-- password -->
     <EditText
@@ -204,6 +202,7 @@
     </LinearLayout>
 
     <!-- Already have account Text -->
+
     <TextView
         android:id="@+id/already_account_text"
         android:layout_width="wrap_content"
@@ -229,4 +228,5 @@
         app:layout_constraintTop_toTopOf="@id/already_account_text"
         app:layout_constraintStart_toEndOf="@id/already_account_text"
         app:layout_constraintBottom_toBottomOf="@id/already_account_text"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
