@@ -11,7 +11,7 @@
     <!-- Define the gradient properties -->
     <gradient
         android:type="radial"
-        android:gradientRadius="80%p"
+        android:gradientRadius="60%p"
         android:startColor="#a01e1e"
         android:endColor="#070707" />
 
