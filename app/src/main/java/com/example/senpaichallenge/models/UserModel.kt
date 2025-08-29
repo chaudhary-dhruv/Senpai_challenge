@@ -1,7 +1,7 @@
 package com.example.senpaichallenge.models
 
 data class UserModel(
-    val uid: String = "",         // 🔹 unique Firebase UID (chat & identity ke liye zaroori)
+    val uid: String = "",         // 🔹 unique Firebase UID (chat & identity)
     val username: String = "",
     val animeId: String = "",
     val avatar: String = "",
