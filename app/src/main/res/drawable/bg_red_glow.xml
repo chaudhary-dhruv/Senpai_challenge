@@ -11,11 +11,12 @@
     <!-- Define the gradient properties -->
     <gradient
         android:type="radial"
-        android:gradientRadius="60%p"
-        android:startColor="#a01e1e"
-        android:endColor="#070707" />
+        android:gradientRadius="80%p"
+        android:startColor="#B71C1C"
+        android:endColor="#000000" />
 
-
-
+    <!-- Define the rounded corners -->
+    <corners
+        android:radius="12dp" />
 
 </shape>

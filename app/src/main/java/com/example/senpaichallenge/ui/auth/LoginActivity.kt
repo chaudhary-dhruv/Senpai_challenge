@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.senpaichallenge.R
 import com.example.senpaichallenge.databinding.ActivityLoginBinding
+import com.example.senpaichallenge.utils.UiUtils.toggleLoadingButton
+import com.example.senpaichallenge.utils.UiUtils.toggleLoadingGoogle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -18,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 
 class LoginActivity : AppCompatActivity() {
 
@@ -67,7 +71,9 @@ class LoginActivity : AppCompatActivity() {
             val pass = binding.passwordInput.text.toString().trim()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
+                toggleLoadingButton(binding.btnLogin, binding.progressBar, true, "Continue")
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
+                    toggleLoadingButton(binding.btnLogin, binding.progressBar, false, "Continue")
                     if (it.isSuccessful) {
                         goToNextStep()
                     } else {
@@ -84,7 +90,9 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Google Sign-In Button
-        findViewById<LinearLayout>(R.id.googleSignInButton).setOnClickListener {
+        val googleBtn = findViewById<LinearLayout>(R.id.googleSignInButton)
+        googleBtn.setOnClickListener {
+            toggleLoadingGoogle(googleBtn, binding.progressBar, true)
             signInGoogle()
         }
     }
@@ -96,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
 
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            toggleLoadingGoogle(findViewById(R.id.googleSignInButton), binding.progressBar, false)
             if (result.resultCode == Activity.RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 handleResults(task)
@@ -116,6 +125,7 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
+            toggleLoadingGoogle(findViewById(R.id.googleSignInButton), binding.progressBar, false)
             if (it.isSuccessful) {
                 goToNextStep()
             } else {
@@ -125,6 +135,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun goToNextStep() {
+        val user = firebaseAuth.currentUser
+        if (user != null) {
+            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                FirebaseFirestore.getInstance().collection("users").document(user.uid)
+                    .update("fcmToken", token)
+            }
+        }
+
         val intent = Intent(this, SplashScreen::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

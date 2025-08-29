@@ -60,6 +60,10 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-messaging:25.0.0")
+
+    //okhttp3
+//    implementation("com.squareup.okhttp3:okhttp:5.1.0")
 
 
     // Material Design
