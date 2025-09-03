@@ -57,7 +57,7 @@ class ChatActivity : AppCompatActivity() {
         // Intent data
         receiverId = intent.getStringExtra("receiverId") ?: ""
 
-        // 🔹 Firestore se receiver ka full data fetch karo
+        //  Fetch receiver profile & messages
         if (receiverId.isNotEmpty()) {
             loadReceiverProfile(receiverId)
             loadMessages()
@@ -68,7 +68,7 @@ class ChatActivity : AppCompatActivity() {
         adapter = ChatBubbleAdapter(messages)
         recyclerView.adapter = adapter
 
-        // Insets handle (keyboard / nav bar)
+        // Insets handle
         ViewCompat.setOnApplyWindowInsetsListener(inputBar) { v, insets ->
             val ime = insets.getInsets(
                 WindowInsetsCompat.Type.ime() or WindowInsetsCompat.Type.systemBars()
@@ -87,7 +87,7 @@ class ChatActivity : AppCompatActivity() {
         btnSend.setOnClickListener { sendMessage() }
         findViewById<ImageButton>(R.id.btnBack)?.setOnClickListener { finish() }
 
-        // 🔹 Username & Avatar click → Open UserProfileActivity
+        //  Username & Avatar click → Open UserProfileActivity
         val openProfile = View.OnClickListener {
             val intent = Intent(this, UserProfileActivity::class.java).apply {
                 putExtra("uid", receiverId)
@@ -103,7 +103,7 @@ class ChatActivity : AppCompatActivity() {
         imgAvatar.setOnClickListener(openProfile)
     }
 
-    // 🔹 Receiver profile load from Firestore
+    // Receiver profile load from Firestore
     private fun loadReceiverProfile(userId: String) {
         db.collection("users").document(userId)
             .get()
@@ -137,7 +137,7 @@ class ChatActivity : AppCompatActivity() {
                     val msg = doc.toObject(ChatMessage::class.java)
                     messages.add(msg)
 
-                    // 🔹 If I am receiver → mark as seen
+                    //  If I am receiver → mark as seen
                     if (msg.receiverId == currentUserId && !msg.seen) {
                         doc.reference.update("seen", true)
                     }
@@ -145,7 +145,7 @@ class ChatActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
                 recyclerView.scrollToPosition(messages.size - 1)
 
-                // ✅ Reset unreadCount for me
+                // Reset unreadCount for me
                 chatRef.update("unreadCount.$currentUserId", 0)
             }
     }
@@ -172,7 +172,7 @@ class ChatActivity : AppCompatActivity() {
         )
         chatRef.set(chatMeta, SetOptions.merge())
 
-        // ✅ unreadCount increase only for receiver
+        //  unreadCount increase only for receiver
         chatRef.update("unreadCount.$receiverId", FieldValue.increment(1))
 
         chatRef.collection("messages")

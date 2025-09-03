@@ -32,7 +32,7 @@ class ScoreCardActivity : AppCompatActivity() {
             start()
         }
 
-        // Animate percentage text bhi (0 se target tak count karega)
+        // Animate percentage text
         Thread {
             for (i in 0..percentage) {
                 runOnUiThread {

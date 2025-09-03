@@ -51,7 +51,7 @@ class QuizAdapter(
         val resId = imageMap[quiz.animeName] ?: R.drawable.default_anime
         holder.imageView.setImageResource(resId)
 
-        // 🔹 Show custom dialog before starting quiz
+        // Show custom dialog before starting quiz
         holder.itemView.setOnClickListener {
             val dialogView = LayoutInflater.from(context).inflate(R.layout.custom_quiz_dialog, null)
 

@@ -40,14 +40,14 @@ class UserProfileActivity : AppCompatActivity() {
         tvPoints = findViewById(R.id.tvPoints)
         btnMessage = findViewById(R.id.btnMessage)
 
-        // 🔹 Back button
+        // Back button
         val btnback: ImageButton = findViewById(R.id.btnBack)
         btnback.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()  // ✅ recommended
         }
 
 
-        // 🔹 Intent data
+        // Intent data
         uid = intent.getStringExtra("uid")
         username = intent.getStringExtra("username")
         avatar = intent.getStringExtra("avatar")
@@ -58,10 +58,10 @@ class UserProfileActivity : AppCompatActivity() {
             return
         }
 
-        // 🔹 Firestore se full user data load karo
+        // Load All the data from firebase
         loadUserProfile(uid!!)
 
-        // 🔹 Message button
+        // Message button
         btnMessage.setOnClickListener {
             uid?.let { targetId ->
                 val intent = Intent(this, ChatActivity::class.java).apply {
@@ -84,13 +84,13 @@ class UserProfileActivity : AppCompatActivity() {
                     avatar = doc.getString("avatar") ?: "avatar1"
                     val bio = doc.getString("bio") ?: "No bio yet! ✨"
 
-                    // ✅ Rank calculate dynamically from all users
+                    // Rank calculate dynamically from all users
                     val points = doc.getLong("totalPoints")?.toInt() ?: 0
 
-                    // Pehle points set karte hain
+                    // Firstly set the points
                     tvPoints.text = "$points pts"
 
-                    // 🔹 Rank nikalne ke liye query sab users ka order by totalPoints
+                    // Find Rank
                     db.collection("users")
                         .orderBy("totalPoints", com.google.firebase.firestore.Query.Direction.DESCENDING)
                         .get()
@@ -107,7 +107,7 @@ class UserProfileActivity : AppCompatActivity() {
                             tvRank.text = "-"
                         }
 
-                    // 🔹 Set views
+                    // Set views
                     tvUsername.text = username
                     tvAnimeId.text = animeId
                     tvBio.text = bio

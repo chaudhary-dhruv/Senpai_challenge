@@ -29,13 +29,13 @@ class ProfileFragment : Fragment() {
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
 
-    // 🔹 Total max points
+    // Total max points
     private val TOTAL_MAX_POINTS = 750000
     private val ANIME_MAX_POINTS = 50000
 
 
 
-    // 🔹 Anime list
+    // Anime list
     private val animeList = listOf(
         "All", "naruto", "one_punch_man", "my_hero_academia", "akira",
         "your_name", "hunter_x_hunter", "bleach", "one_piece",
@@ -120,14 +120,14 @@ class ProfileFragment : Fragment() {
                     if (resId != 0) avatarImage.setImageResource(resId)
                     else avatarImage.setImageResource(R.drawable.avatar1)
 
-                    // 👇 Data bind (swapped as per your request)
+                    //  Data bind (swapped as per your request)
                     usernameText.text = animeId   // tvUsername → animeId
                     view?.findViewById<TextView>(R.id.tvBadge)?.text = username  // tvBadge → username
 
                     bioText.text = bio
                     tvPoints.text = userTotalPoints.toString()
 
-                    // 🔹 Default spinner = All
+                    // Default spinner = All
                     updatePointsUI("All")
                 }
             }

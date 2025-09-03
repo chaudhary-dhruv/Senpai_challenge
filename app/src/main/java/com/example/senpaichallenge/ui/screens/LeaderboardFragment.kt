@@ -44,7 +44,7 @@ class LeaderboardFragment : Fragment() {
             .addOnSuccessListener { docs ->
                 userList.clear()
                 for ((index, doc) in docs.withIndex()) {
-                    val uid = doc.id  // ✅ Added UID here
+                    val uid = doc.id
                     val username = doc.getString("username") ?: "Unknown"
                     val animeId = doc.getString("animeId") ?: "UnknownID"
                     val avatar = doc.getString("avatar") ?: "avatar1"
@@ -53,7 +53,7 @@ class LeaderboardFragment : Fragment() {
 
                     userList.add(
                         UserModel(
-                            uid = uid, // ✅ include uid
+                            uid = uid,
                             username = username,
                             animeId = animeId,
                             avatar = avatar,

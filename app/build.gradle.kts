@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
 
 
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // ✅ ADD THIS LINE
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
     id("com.google.gms.google-services")
 }
 
@@ -36,7 +36,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11" // ✅ Downgraded to avoid Compose + Kotlin compiler crash
+        jvmTarget = "11"
     }
 
     buildFeatures {
@@ -46,7 +46,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10" // ✅ Matches with runtime
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
 }
 
@@ -73,7 +73,7 @@ dependencies {
     //circular image for profile
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    // Compose Runtime (✅ These are the correct ones to avoid crashing Theme.kt)
+    // Compose Runtime
     implementation("androidx.compose.ui:ui:1.5.0")
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")

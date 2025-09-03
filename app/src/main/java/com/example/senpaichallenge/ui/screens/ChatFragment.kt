@@ -57,14 +57,14 @@ class ChatFragment : Fragment() {
         recyclerView.adapter = adapter
 
         loadCurrentUser()
-        loadChats() // by default chat list load karo
+        loadChats() // by default chat list loaded
 
-        // 🔹 Firestore search
+        // Firestore search
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 val query = s.toString().trim()
                 if (query.isEmpty()) {
-                    loadChats() // agar search clear ho jaye to wapas chats show karo
+                    loadChats() // If search box is clear than show the chat list
                 } else {
                     searchUsers(query)
                 }
@@ -143,7 +143,7 @@ class ChatFragment : Fragment() {
         users.clear()
         val lowerQuery = query.lowercase()
 
-        // 🔹 Username search
+        //  Username search
         db.collection("users")
             .orderBy("username")
             .startAt(lowerQuery)
@@ -172,7 +172,7 @@ class ChatFragment : Fragment() {
                     }
                 }
 
-                // 🔹 AnimeID search bhi run karo
+                // AnimeID search bhi run karo
                 db.collection("users")
                     .orderBy("animeId")
                     .startAt(lowerQuery)

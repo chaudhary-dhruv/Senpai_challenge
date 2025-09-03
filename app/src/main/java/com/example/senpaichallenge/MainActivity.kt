@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    // Fragments ko ek hi baar create karenge
+    // Create fragments only one time
     private lateinit var homeFragment: HomeFragment
     private lateinit var chatFragment: ChatFragment
     private lateinit var leaderboardFragment: LeaderboardFragment
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         leaderboardFragment = LeaderboardFragment()
         profileFragment = ProfileFragment()
 
-        // Sab fragments add karo lekin ek hi visible rahe
+        // Add all fragment but only one is visible
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, homeFragment, "HOME")
             .commit()
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             .hide(profileFragment)
             .commit()
 
-        // Agar openProfile flag true hai to ProfileFragment load hoga
+        // If openProfile is true, switch to profile fragment
         if (intent.getBooleanExtra("openProfile", false)) {
             switchFragment(profileFragment)
             binding.bottomNav.selectedItemId = R.id.nav_profile
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun switchFragment(target: Fragment) {
-        if (target == activeFragment) return // agar same fragment hai to kuch mat karo
+        if (target == activeFragment) return // If already active fragment, do nothing
 
         val transaction = supportFragmentManager.beginTransaction()
         activeFragment?.let { transaction.hide(it) }

@@ -1,4 +1,3 @@
-// models/ChatMessage.kt
 package com.example.senpaichallenge.models
 
 data class ChatMessage(

@@ -65,7 +65,7 @@ class QuizActivity : AppCompatActivity() {
         btnNext = findViewById(R.id.btnNext)
         btnSubmit = findViewById(R.id.btnSubmit)
 
-        // ✅ Next button validation
+        //  Next button validation
         btnNext.setOnClickListener {
             val currentQuestion = questions["question$index"]
             if (currentQuestion?.userAnswerIndex == null) {
@@ -167,7 +167,7 @@ class QuizActivity : AppCompatActivity() {
         val rv = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.optionsRecyclerView)
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = OptionAdapter(this, question) { selected ->
-            // ✅ New scoring logic: Correct = +100, Wrong = -25
+            // scoring logic: Correct = +100, Wrong = -25
             val gained = if (selected == question.correctIndex) 100 else -25
             val prev = perQuestionAward[index] ?: 0
             score += (gained - prev)
@@ -191,7 +191,7 @@ class QuizActivity : AppCompatActivity() {
             override fun onFinish() {
                 val currentQuestion = questions["question$index"]
                 if (currentQuestion?.userAnswerIndex == null) {
-                    // ✅ Time finished & no option selected → -50
+                    //  Time finished & no option selected → -50
                     val prev = perQuestionAward[index] ?: 0
                     score += (-50 - prev)
                     perQuestionAward[index] = -50
@@ -247,7 +247,7 @@ class QuizActivity : AppCompatActivity() {
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
-        if (!quizFinished) {   // ✅ Sirf tabhi jab quiz puri nahi hui ho
+        if (!quizFinished) {   // Only trigger when quiz is not finished
             Toast.makeText(this, "You left the quiz. Returning to home.", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("OPEN_FRAGMENT", "HOME")

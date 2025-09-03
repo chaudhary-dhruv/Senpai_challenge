@@ -37,11 +37,11 @@ class LeaderboardAdapter(private val users: List<UserModel>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is Top3ViewHolder) {
-            val top3 = users.take(3) // first 3 users
+            val top3 = users.take(3) // Top 3 users
             holder.bind(top3)
         } else if (holder is NormalViewHolder) {
             val user = users[position]
-            holder.bind(user, position + 3) // +3 because top3 block already taken
+            holder.bind(user, position + 3) // Other Ranker
         }
     }
 

@@ -19,14 +19,14 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // 🔹 Initialize views
+        // Initialize views
         btnBack = findViewById(R.id.btnBack)
         btnLogout = findViewById(R.id.optionLogout)
 
-        // 🔹 Back button
+        //Back button
         btnBack.setOnClickListener { finish() }
 
-        // 🔹 Logout option
+        // Logout option
         btnLogout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             Toast.makeText(this, "Logged out successfully!", Toast.LENGTH_SHORT).show()

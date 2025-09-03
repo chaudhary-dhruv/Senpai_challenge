@@ -47,9 +47,6 @@ class ForgotPassword : AppCompatActivity() {
     }
 
     private fun resetPassword() {
-        // Agar tum progress bar add karoge to use show kar sakte ho:
-        // binding.progressBar.visibility = View.VISIBLE
-        // binding.btnSendLink.visibility = View.INVISIBLE
 
         mAuth.sendPasswordResetEmail(strEmail)
             .addOnSuccessListener {
@@ -67,9 +64,7 @@ class ForgotPassword : AppCompatActivity() {
                     "Error: ${e.message}",
                     Toast.LENGTH_SHORT
                 ).show()
-                // Agar tum progress bar lagate ho to wapas hide karo:
-                // binding.progressBar.visibility = View.INVISIBLE
-                // binding.btnSendLink.visibility = View.VISIBLE
+
             }
     }
 }

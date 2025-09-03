@@ -31,17 +31,17 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        // 🔹 Header views
+        // Header views
         avatarImage = view.findViewById(R.id.imgUserAvatar)
         usernameText = view.findViewById(R.id.tvUsername)
 
-        // 🔹 RecyclerView
+        // RecyclerView
         recyclerView = view.findViewById(R.id.recyclerViewQuizzes)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = QuizAdapter(requireContext(), quizItems)
         recyclerView.adapter = adapter
 
-        // 🔹 Firestore se user data aur quiz list load karo
+        // Load user data and quizzes from Firestore
         loadUserData()
         loadQuizzesFromFirestore()
         return view
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
                     val username = doc.getString("username") ?: "Guest"
                     val avatarName = doc.getString("avatar") ?: "avatar1"
 
-                    // 🔹 string -> drawable
+                    //  string -> drawable
                     val resId = resources.getIdentifier(
                         avatarName,
                         "drawable",
